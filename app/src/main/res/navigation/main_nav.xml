@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/healthStatusFragment">
+
+    <fragment
+        android:id="@+id/healthStatusFragment"
+        android:name="com.example.sihati_client.mainPage.fragments.HealthStatusFragment"
+        android:label="fragment_health_status"
+        tools:layout="@layout/fragment_health_status" />
+    <fragment
+        android:id="@+id/testHistoryFragment"
+        android:name="com.example.sihati_client.mainPage.fragments.TestHistoryFragment"
+        android:label="fragment_test_history"
+        tools:layout="@layout/fragment_test_history" />
+    <fragment
+        android:id="@+id/schedulesFragment"
+        android:name="com.example.sihati_client.mainPage.fragments.SchedulesFragment"
+        android:label="fragment_schedules"
+        tools:layout="@layout/fragment_schedules" />
+</navigation>
