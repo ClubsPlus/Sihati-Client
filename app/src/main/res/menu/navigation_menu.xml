@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/healthStatusFragment"
+        android:id="@+id/healthStatus"
         android:title="Profile"
         android:icon="@drawable/profile"/>
 
     <item
-        android:id="@+id/testHistoryFragment"
+        android:id="@+id/testHistory"
         android:title="Schedules"
         android:icon="@drawable/schedule"/>
 
     <item
-        android:id="@+id/schedulesFragment"
+        android:id="@+id/schedules"
         android:title="My Tests"
         android:icon="@drawable/history"/>
 
