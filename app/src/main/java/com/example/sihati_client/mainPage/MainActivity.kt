@@ -12,6 +12,7 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 class MainActivity : AppCompatActivity() {
 
     lateinit var fragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
