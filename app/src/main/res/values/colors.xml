@@ -10,8 +10,9 @@
 
     /*palete*/
     <color name="blue">#313552</color>
-    <color name="brown">#B8405E</color>
+    <color name="red">#B8405E</color>
     <color name="green">#2EB086</color>
     <color name="beige">#EEE6CE</color>
+    <color name="yellow">#BBBA12</color>
 
 </resources>
