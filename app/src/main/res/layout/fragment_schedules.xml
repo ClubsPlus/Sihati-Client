@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".mainPage.fragments.SchedulesFragment">
+    tools:context=".mainPage.fragments.SchedulesFragment"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -78,6 +79,7 @@
             android:layout_weight="1"
             android:background="@drawable/back_round_grey"
             android:text="Date"
+            android:textColor="@color/black"
             android:textAllCaps="false"
             android:textStyle="bold" />
         <TextView
@@ -89,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:background="@drawable/back_round_grey"
             android:text="Laboratoire"
             android:textAllCaps="false"
