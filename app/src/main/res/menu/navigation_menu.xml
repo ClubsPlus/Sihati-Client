@@ -9,13 +9,13 @@
         app:cnb_iconColor="@color/green"/>
 
     <item
-        android:id="@+id/testHistory"
+        android:id="@+id/schedules"
         android:title="programme"
         android:icon="@drawable/schedule"
         app:cnb_iconColor="@color/green"/>
 
     <item
-        android:id="@+id/schedules"
+        android:id="@+id/testHistory"
         android:title="Historique"
         android:icon="@drawable/history"
         app:cnb_iconColor="@color/green"/>
