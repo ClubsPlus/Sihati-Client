@@ -24,7 +24,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
-    private val laboratoryCollectionRef = Firebase.firestore.collection("User")
+    private val userCollectionRef = Firebase.firestore.collection("User")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +92,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun saveUser(user: User, id: String) = CoroutineScope(Dispatchers.IO).launch{
         try{
-            laboratoryCollectionRef.document(id).set(user).await()
+            userCollectionRef.document(id).set(user).await()
             withContext(Dispatchers.Main){
                 Toast.makeText(this@SignUpActivity,"seccesufy saved data",Toast.LENGTH_LONG).show()
             }

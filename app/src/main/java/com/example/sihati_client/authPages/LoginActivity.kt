@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth;
-    private val laboratoryCollectionRef = Firebase.firestore.collection("User")
+    private val userCollectionRef = Firebase.firestore.collection("User")
     private lateinit var user: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,11 +82,12 @@ class LoginActivity : AppCompatActivity() {
     private fun retrieveLaboratories(user: FirebaseUser, uid: String) = CoroutineScope(Dispatchers.IO).launch {
         try {
             var succes = 0
-            val querySnapshot = laboratoryCollectionRef.get().await()
-            querySnapshot.documents.forEach{
-                if(it.id==uid){
+            val querySnapshot = userCollectionRef.get().await()
+            for(document in querySnapshot.documents){
+                if(document.id==uid){
                     succes = 1
                     updateUI(user)
+                    break
                 }
             }
             if(succes==0){
