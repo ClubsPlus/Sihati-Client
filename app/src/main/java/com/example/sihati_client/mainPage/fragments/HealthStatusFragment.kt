@@ -5,27 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.sihati_client.R
 import com.example.sihati_client.database.User
 import com.example.sihati_client.databinding.FragmentHealthStatusBinding
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.lang.StringBuilder
 
 class HealthStatusFragment : Fragment() {
 
     private lateinit var binding: FragmentHealthStatusBinding
-    private val userCollectionRef = Firebase.firestore.collection("User")
+    private lateinit var currentUserRef :DocumentReference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,27 +50,30 @@ class HealthStatusFragment : Fragment() {
         val user = Firebase.auth.currentUser
         user?.let{
             val id = it.uid
-            retrieveUserData(id)
+            currentUserRef = Firebase.firestore.collection("User").document(id)
         }
+        subscribeToRealtimeUpdates()
+
     }
 
-    private fun retrieveUserData(id: String) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val querySnapshot = userCollectionRef.document(id).get().await()
-            val user = querySnapshot.toObject<User>()
-            withContext(Dispatchers.Main){
+    private fun subscribeToRealtimeUpdates(){
+        currentUserRef.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+            firebaseFirestoreException?.let{
+                Toast.makeText(requireActivity(),it.message,Toast.LENGTH_LONG).show()
+                return@addSnapshotListener
+            }
+            querySnapshot?.let{
+                val user = it.toObject<User>()
                 binding.name.text = user?.name
                 binding.id.text = user?.id
                 binding.status.text = user?.status
                 when(user?.status){
-                    "positive" -> binding.logo.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.logo_red))
-                    "negative" -> binding.logo.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.logo_green))
-                    "pending" -> binding.logo.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.logo_grey))
-                    "Not Tested" -> binding.logo.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.logo_yellow))
+                    "Positive" -> Glide.with(this).load(R.drawable.logo_red).into(binding.logo)
+                    "Negative" -> Glide.with(this).load(R.drawable.logo_green).into(binding.logo)
+                    "Pending" -> Glide.with(this).load(R.drawable.logo_grey).into(binding.logo)
+                    "Not Tested" -> Glide.with(this).load(R.drawable.logo_yellow).into(binding.logo)
                 }
             }
-        }catch (e:Exception){
-
         }
     }
 }
