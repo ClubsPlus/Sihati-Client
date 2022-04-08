@@ -1,4 +1,4 @@
-package com.example.sihati_client.authPages
+package com.example.sihati_client.pages.authPages
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

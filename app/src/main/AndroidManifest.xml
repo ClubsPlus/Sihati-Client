@@ -10,17 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SihatiClient">
         <activity
-            android:name=".settingsPage.SettingsActivity"
+            android:name=".pages.settingsPage.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".authPages.RecoverWordActivity"
+            android:name=".pages.authPages.RecoverWordActivity"
             android:exported="false" />
         <activity
-            android:name=".authPages.SignUpActivity"
+            android:name=".pages.authPages.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".authPages.LoginActivity"
+            android:name=".pages.authPages.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mainPage.MainActivity"
+            android:name=".pages.mainPage.MainActivity"
             android:exported="true"/>
     </application>
 

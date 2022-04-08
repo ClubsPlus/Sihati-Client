@@ -4,58 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".mainPage.fragments.SchedulesFragment"
-    android:background="@color/background">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
-
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/info"-->
-<!--        android:layout_width="408dp"-->
-<!--        android:layout_height="181dp"-->
-<!--        android:background="@drawable/red_background"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/guideline"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:layout_marginBottom="10dp">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:text="Il faut prendre un render-vous"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20dp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Votre test est expirer"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20dp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:text=""-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20dp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--    </LinearLayout>-->
+    tools:context=".pages.mainPage.fragments.SchedulesFragment">
 
     <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
         android:id="@+id/calander"
@@ -92,6 +41,7 @@
             android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -106,14 +56,16 @@
             android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/laboratory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:background="@drawable/back_round_grey"
-            android:text="Laboratoire"
+            android:text="Laboratory"
             android:textAllCaps="false"
+            android:textColor="@color/black"
             android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.example.sihati_client.authPages
+package com.example.sihati_client.pages.authPages
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.example.sihati_client.R
 import com.example.sihati_client.database.User
 import com.example.sihati_client.databinding.ActivitySignUpBinding
-import com.example.sihati_client.mainPage.MainActivity
+import com.example.sihati_client.pages.mainPage.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -38,7 +38,7 @@ class SignUpActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.login.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         binding.signup.setOnClickListener {

@@ -1,12 +1,12 @@
-package com.example.sihati_client.mainPage
+package com.example.sihati_client.pages.mainPage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.sihati_client.R
-import com.example.sihati_client.mainPage.fragments.HealthStatusFragment
-import com.example.sihati_client.mainPage.fragments.SchedulesFragment
-import com.example.sihati_client.mainPage.fragments.TestHistoryFragment
+import com.example.sihati_client.pages.mainPage.fragments.HealthStatusFragment
+import com.example.sihati_client.pages.mainPage.fragments.SchedulesFragment
+import com.example.sihati_client.pages.mainPage.fragments.TestHistoryFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class MainActivity : AppCompatActivity() {

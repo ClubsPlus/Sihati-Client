@@ -8,6 +8,7 @@
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp">
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green">
@@ -34,12 +35,14 @@
                     android:src="@drawable/baseline_science_24"/>
 
                 <TextView
+                    android:id="@+id/laboratory_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
                     android:text="Laboratoire Sari"
-                    android:textSize="20dp"
+                    android:maxLines="1"
                     android:textColor="@color/black"
-                    android:layout_marginLeft="15dp"/>
+                    android:textSize="20dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -55,6 +58,7 @@
                     android:src="@drawable/schedule"/>
 
                 <TextView
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="31/10/2022"
@@ -69,6 +73,7 @@
                     android:src="@drawable/time" />
 
                 <TextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11:00 - 11:30"

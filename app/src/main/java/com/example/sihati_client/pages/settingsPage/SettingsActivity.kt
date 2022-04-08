@@ -1,4 +1,4 @@
-package com.example.sihati_client.settingsPage
+package com.example.sihati_client.pages.settingsPage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
