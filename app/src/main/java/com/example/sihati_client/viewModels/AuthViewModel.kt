@@ -13,8 +13,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: AuthenticationRepository = AuthenticationRepository(application)
     val userData: MutableLiveData<FirebaseUser?> = repository.firebaseUserMutableLiveData
 
-    fun register(email: String?, pass: String?,id: String?,name: String?,number: String?) {
-        repository.register(email, pass,id,name,number)
+    fun register(email: String?, pass: String?,id: String?,name: String?,number: String,activity: Activity) {
+        repository.register(email, pass,id,name,number,activity)
     }
 
     fun signIn(email: String?, pass: String?,activity: Activity) {

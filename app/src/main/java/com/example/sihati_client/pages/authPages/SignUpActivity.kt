@@ -49,7 +49,8 @@ class SignUpActivity : AppCompatActivity() {
                     binding.password.text.toString(),
                     binding.id.text.toString(),
                     binding.name.text.toString(),
-                    binding.number.text.toString())
+                    binding.number.text.toString(),
+                    this)
             }else
                 Toast.makeText(this,"fill your fields plz", Toast.LENGTH_SHORT).show()
         }

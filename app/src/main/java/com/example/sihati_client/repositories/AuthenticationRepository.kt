@@ -5,10 +5,10 @@ import android.app.Application
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.User
 import com.example.sihati_client.pages.authPages.LoginActivity
+import com.example.sihati_client.pages.mainPage.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,11 +27,11 @@ class AuthenticationRepository(private val application: Application) {
     private var firestore = FirebaseFirestore.getInstance()
     var userCollectionRef = firestore.collection("User")
 
-    fun register(email: String?, pass: String?,id: String?,name: String?,number: String?) {
+    fun register(email: String?, pass: String?,id: String?,name: String?,number: String,activity: Activity) {
         auth.createUserWithEmailAndPassword(email!!, pass!!).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val uid = auth.currentUser!!.uid
-                saveUser(User(id,name,number),uid)
+                saveUser(User(id,name,number),uid,activity)
             }else{
                 Toast.makeText(application, task.exception?.message, Toast.LENGTH_SHORT)
                     .show()
@@ -39,12 +39,14 @@ class AuthenticationRepository(private val application: Application) {
         }
     }
 
-    private fun saveUser(user: User, uid: String) = CoroutineScope(Dispatchers.IO).launch{
+    private fun saveUser(user: User, uid: String, activity: Activity) = CoroutineScope(Dispatchers.IO).launch{
         try{
             userCollectionRef.document(uid).set(user).await()
-//            withContext(Dispatchers.Main){
-//                Toast.makeText(this@SignUpActivity,"seccesufy saved data",Toast.LENGTH_LONG).show()
-//            }
+              withContext(Dispatchers.Main){
+                Toast.makeText(activity,"account created successfully",Toast.LENGTH_LONG).show()
+                val mainActivity = MainActivity()
+                activity.startActivity(Intent(activity,mainActivity::class.java))
+              }
         }catch (e: Exception){
             withContext(Dispatchers.Main) {
                 Log.d("Test",e.message.toString())
@@ -88,9 +90,9 @@ class AuthenticationRepository(private val application: Application) {
     }
 
     fun signOut(requireActivity: Activity) {
-        val test = LoginActivity()
+        val loginActivity = LoginActivity()
         auth.signOut()
-        requireActivity.startActivity(Intent(requireActivity,test::class.java))
+        requireActivity.startActivity(Intent(requireActivity,loginActivity::class.java))
     }
 
     init {
