@@ -1,5 +1,6 @@
 package com.example.sihati_client.database
 
+
 data class Schedule (
     var id:String? = "",
     var date:String? = "",
