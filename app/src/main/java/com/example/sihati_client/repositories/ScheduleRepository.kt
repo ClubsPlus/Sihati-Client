@@ -1,51 +1,57 @@
 package com.example.sihati_client.repositories
 
-import android.app.Activity
-import android.app.Application
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.Nullable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.sihati_client.R
-import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class ScheduleRepository {
 
     var  model = Schedule();
-    private lateinit var instance: ScheduleRepository
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    var user: MutableLiveData<User> = MutableLiveData<User>()
+    private var firestore : FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun getMyInstance(): ScheduleRepository{
-        if (instance==null){
-            instance = ScheduleRepository();
-        }
-        return instance;
+    init {
+        firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        getProfile()
     }
 
-    fun getData() : MutableLiveData<Schedule>? {
-        val data = MutableLiveData<Schedule>();
-        val db = FirebaseFirestore.getInstance();
-        val ref = db.collection("users").document("Profile1");
+    fun getSchedules() : MutableLiveData<Schedule> {
+        val data = MutableLiveData<Schedule>()
+        val db = FirebaseFirestore.getInstance()
+        val ref = db.collection("Schedule").document("Profile1");
 
         ref.addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, e ->
-//            model.(documentSnapshot.getString("firstName"));
-//            model.setLassetFirstNametName(documentSnapshot.getString("lastName"));
-//            model.setEmail(documentSnapshot.getString("email"));
-            data.setValue(model);
+            data.setValue(model)
         }
         return data;
+    }
+
+    fun getProfile(){
+        Log.d("test", user.toString())
+        val db = FirebaseFirestore.getInstance()
+        val ref = auth.currentUser?.let { db.collection("User").document(it.uid) }
+
+        ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->
+            firebaseFirestoreException?.let{
+                Log.d("exeptions",it.message.toString())
+                return@addSnapshotListener
+            }
+            snapshot?.let{
+                user.value = it.toObject<User>()
+                Log.d("test","I'm done with seting the data ")
+            }
+        }
+        Log.d("test", user.value?.id.toString())
+
     }
 }
