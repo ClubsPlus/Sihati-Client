@@ -7,28 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sihati_client.R
 import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.databinding.FragmentSchedulesBinding
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
+import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
 
     private lateinit var binding: FragmentSchedulesBinding
-    private var currentUserRef = Firebase.firestore.collection("Schedule")
     private lateinit var scheduleAdapter :ScheduleAdapter
+    lateinit var mainViewModel: ScheduleViewModel
 
     private var time = "Time"
     private var hour = 0
@@ -48,10 +43,12 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentDate= LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val date = currentDate.format(formatter)
-        recyclerViewSetup(date)
+        mainViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        )[ScheduleViewModel::class.java]
+        mainViewModel.init()
+
+        recyclerViewSetup()
         setupCalendar(binding.calander)
 
         /*setup the date and time pickers*/
@@ -61,7 +58,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         }
     }
 
-    private fun recyclerViewSetup(date: String) {
+    private fun recyclerViewSetup() {
         // on below line we are setting layout
         // manager to our recycler view.
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -73,39 +70,15 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         binding.recyclerView.adapter = scheduleAdapter
         binding.recyclerView.setHasFixedSize(true)
 
-        subscribeToRealtimeUpdates(date,time)
-    }
-
-    private fun subscribeToRealtimeUpdates(date:String,time:String){
-        currentUserRef.whereEqualTo("date",date).orderBy("time_Start",Query.Direction.ASCENDING)
-            .addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let{
-                    Toast.makeText(requireActivity(),it.message, Toast.LENGTH_LONG).show()
-                    Log.d("test",it.message.toString())
-                    return@addSnapshotListener
-                }
-                if(querySnapshot?.size()!=0){
-                    val schedules  = mutableListOf<Schedule>()
-                    for (document in querySnapshot!!){
-                        val schedule = document.toObject<Schedule>()
-                        if(schedule.person!! < schedule.limite!!){
-                            if (time[0].isDigit()){
-
-                            }else{
-                                schedule.id = document.id
-                                Firebase.firestore.collection("Laboratory")
-                                    .document(schedule.laboratory_id!!).get().addOnSuccessListener {
-                                        schedule.laboratory_name = it.get("name").toString()
-                                        schedules.add(schedule)
-                                        scheduleAdapter.updateList(schedules)
-                                    }
-                            }
-                        }
-                    }
-                }else{
-                    scheduleAdapter.updateList(emptyList())
-                }
+        mainViewModel.schedules?.observe(requireActivity()){ list ->
+            Log.d("test","I'm in the observe main")
+            Log.d("test", list?.size.toString())
+            list?.let {
+                // on below line we are updating our list.
+                scheduleAdapter.updateList(it)
             }
+
+        }
     }
 
     private fun setupCalendar(collapsibleCalendar: CollapsibleCalendar){
@@ -131,7 +104,15 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
                 val date = thistoday+"/"+thismonth+"/"+day.year
                 time = "Time"
                 binding.time.text= time
-                subscribeToRealtimeUpdates(date,time)
+                mainViewModel.updateScheduleWithDate(date)
+                mainViewModel.schedules?.observe(requireActivity()){ list ->
+                    Log.d("test","I'm in the observe calender")
+                    Log.d("test", list?.size.toString())
+                    list?.let {
+                        // on below line we are updating our list.
+                        scheduleAdapter.updateList(it)
+                    }
+                }
             }
 
             override fun onItemClick(v: View) {
@@ -153,6 +134,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
     }
 
     override fun onClick(schedule: Schedule) {
+
     }
 
     private fun getDateTimeCalendar(){
