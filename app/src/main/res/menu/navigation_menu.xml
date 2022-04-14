@@ -15,6 +15,12 @@
         app:cnb_iconColor="@color/green"/>
 
     <item
+        android:id="@+id/appointment"
+        android:title="Rendez vous"
+        android:icon="@drawable/time"
+        app:cnb_iconColor="@color/green"/>
+
+    <item
         android:id="@+id/testHistory"
         android:title="Historique"
         android:icon="@drawable/history"

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sihati_client.R
 import com.example.sihati_client.pages.authPages.LoginActivity
+import com.example.sihati_client.pages.mainPage.fragments.AppointmentFragment
 import com.example.sihati_client.pages.mainPage.fragments.HealthStatusFragment
 import com.example.sihati_client.pages.mainPage.fragments.SchedulesFragment
 import com.example.sihati_client.pages.mainPage.fragments.TestHistoryFragment
@@ -48,6 +49,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.testHistory -> {
                     fragment = TestHistoryFragment()
+                }
+                R.id.schedules -> {
+                    fragment = AppointmentFragment()
                 }
                 R.id.schedules -> {
                     fragment = SchedulesFragment()
