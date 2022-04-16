@@ -53,12 +53,13 @@ class TestRepository {
             .whereEqualTo("result","Positive")
             .whereEqualTo("result","Negative")}
         ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->
+            tests.value = emptyList()
+            list.clear()
             firebaseFirestoreException?.let{
                 Log.d("exeptions","error: "+it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let{
-                tests.value = emptyList()
                 for(document in it){
                     list.add(document.toObject())
                 }

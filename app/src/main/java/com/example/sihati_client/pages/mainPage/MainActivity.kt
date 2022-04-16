@@ -47,14 +47,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.healthStatus -> {
                     fragment = HealthStatusFragment()
                 }
-                R.id.testHistory -> {
-                    fragment = TestHistoryFragment()
-                }
-                R.id.schedules -> {
-                    fragment = AppointmentFragment()
-                }
                 R.id.schedules -> {
                     fragment = SchedulesFragment()
+                }
+                R.id.appointment -> {
+                    fragment = AppointmentFragment()
+                }
+                R.id.testHistory -> {
+                    fragment = TestHistoryFragment()
                 }
             }
             supportFragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit()
