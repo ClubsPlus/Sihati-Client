@@ -3,9 +3,14 @@ package com.example.sihati_client.viewModels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.User
 import com.example.sihati_client.repositories.ScheduleRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -15,6 +20,7 @@ class ScheduleViewModel : ViewModel() {
 
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
+    var laboratory: Laboratory? = null
 
     fun init() {
         profile = mRepository.user
@@ -26,5 +32,10 @@ class ScheduleViewModel : ViewModel() {
         schedules?.value = emptyList()
         Log.d("test","after cleaning the list in the viewmodel size="+ schedules?.value!!.size.toString())
         mRepository.getSchedules(date)
+    }
+
+    fun getLaboratoryById(uid:String){
+        mRepository.getLaboratoryById(uid)
+        laboratory = mRepository.laboratory
     }
 }

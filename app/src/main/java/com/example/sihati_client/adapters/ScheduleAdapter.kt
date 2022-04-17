@@ -14,10 +14,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sihati_client.R
 import com.example.sihati_client.database.Schedule
+import com.example.sihati_client.viewModels.ScheduleViewModel
 
 class ScheduleAdapter(
     val context: Context,
     private val onClickInterface: OnClickInterface,
+    val viewModel: ScheduleViewModel
 ) : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
 
     // on below line we are creating a
@@ -41,6 +43,11 @@ class ScheduleAdapter(
         holder.date.text = allSchedules[position].date
         holder.time.text = allSchedules[position].time_Start+" - "+allSchedules[position].time_end
         holder.persons.text = allSchedules[position].person.toString()+"/"+allSchedules[position].limite.toString()
+        allSchedules[position].laboratory_id?.let {
+            viewModel.getLaboratoryById(it)
+            holder.laboratoryName.text = viewModel.laboratory?.name
+        }
+
         val progress = ((allSchedules[position].person)!! *100)/ allSchedules[position].limite!!
         holder.progressBar.progress = progress
         when (progress) {
@@ -85,6 +92,7 @@ class ScheduleAdapter(
         RecyclerView.ViewHolder(itView) {
         // on below line we are creating an initializing all our
         // variables which we have added in layout file.
+        val laboratoryName: TextView = itemView.findViewById(R.id.laboratory_name)
         val date: TextView = itemView.findViewById(R.id.date)
         val name: TextView = itemView.findViewById(R.id.laboratory_name)
         val time: TextView = itemView.findViewById(R.id.time)

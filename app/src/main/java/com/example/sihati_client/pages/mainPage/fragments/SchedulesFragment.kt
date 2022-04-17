@@ -63,7 +63,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         // manager to our recycler view.
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         // on below line we are initializing our adapter class.
-        scheduleAdapter = ScheduleAdapter(requireActivity(), this)
+        scheduleAdapter = ScheduleAdapter(requireActivity(), this,mainViewModel)
 
         // on below line we are setting
         // adapter to our recycler view.
