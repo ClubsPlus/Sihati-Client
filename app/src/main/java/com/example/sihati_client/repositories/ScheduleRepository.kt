@@ -6,10 +6,7 @@ import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.MetadataChanges
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +24,7 @@ class ScheduleRepository {
     var schedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
 
     var laboratoryCollectionRef = firestore.collection("Laboratory")
+    var scheduleCollectionRef = firestore.collection("Schedule")
     var laboratory: Laboratory? = null
 
     init {
@@ -39,10 +37,8 @@ class ScheduleRepository {
     }
 
     fun getSchedules(date:String){
-        Log.d("test","I'm in the getSchedules")
-        val db = FirebaseFirestore.getInstance()
         val list  = ArrayList<Schedule>()
-        db.collection("Schedule").whereEqualTo("date",date)
+        scheduleCollectionRef.whereEqualTo("date",date)
             .orderBy("time_Start", Query.Direction.ASCENDING)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, firebaseFirestoreException ->
             schedules.value = emptyList()
@@ -53,7 +49,8 @@ class ScheduleRepository {
             }
             snapshot?.let{
                 for(document in it){
-                    list.add(document.toObject())
+                    if(document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
+                        list.add(document.toObject())
                 }
                 Log.d("test","after cleaning the list in the repository size="+ schedules?.value?.size.toString())
                 schedules.value = list
@@ -76,6 +73,33 @@ class ScheduleRepository {
         }
     }
 
+    fun updateSchedule(schedule: Schedule, newSchedule: Schedule) = CoroutineScope(Dispatchers.IO).launch {
+        val scheduleQuery = scheduleCollectionRef
+            .whereEqualTo("date",schedule.date)
+            .whereEqualTo("laboratory_id",schedule.laboratory_id)
+            .whereEqualTo("limite",schedule.limite)
+            .whereEqualTo("person",schedule.person)
+            .whereEqualTo("time_Start",schedule.time_Start)
+            .whereEqualTo("time_end",schedule.time_end)
+            .get()
+            .await()
+        if(scheduleQuery.documents.isNotEmpty()){
+            for(document in scheduleQuery){
+                try {
+                    scheduleCollectionRef.document(document.id).set(
+                        newSchedule,
+                        SetOptions.merge()
+                    ).await()
+                }catch (e:Exception){
+                    Log.d("exeptions","error: "+e.message.toString())
+                }
+            }
+
+        }else{
+            Log.d("exeptions","error: the retrieving query is empty")
+        }
+    }
+
     fun getProfile(){
         val db = FirebaseFirestore.getInstance()
         val ref = auth.currentUser?.let { db.collection("User").document(it.uid) }
@@ -89,4 +113,5 @@ class ScheduleRepository {
             }
         }
     }
+
 }

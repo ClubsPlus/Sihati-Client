@@ -23,12 +23,13 @@ class TestRepository {
     }
 
     fun getTestsWithDate(date:String){
-        Log.d("test","I'm in the getSchedules")
         val db = FirebaseFirestore.getInstance()
         val list  = ArrayList<Test>()
         db.collection("Schedule").whereEqualTo("date",date)
             .orderBy("time_Start", Query.Direction.ASCENDING)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, firebaseFirestoreException ->
+                tests.value = emptyList()
+                list.clear()
                 firebaseFirestoreException?.let{
                     Log.d("exeptions","error: "+it.message.toString())
                     return@addSnapshotListener
@@ -36,11 +37,10 @@ class TestRepository {
                 snapshot?.let{
                     tests.value = emptyList()
                     for(document in it){
-                        list.add(document.toObject())
+                        if(document.toObject<Test>().result=="Positive"||document.toObject<Test>().result=="Negative")
+                            list.add(document.toObject())
                     }
-                    Log.d("test","after cleaning the list in the repository size="+ tests?.value?.size.toString())
                     tests.value = list
-                    Log.d("test","I'm done with seting the schedule in the repository ")
                 }
             }
     }
@@ -53,15 +53,15 @@ class TestRepository {
             .whereEqualTo("result","Positive")
             .whereEqualTo("result","Negative")}
         ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->
-            tests.value = emptyList()
-            list.clear()
             firebaseFirestoreException?.let{
                 Log.d("exeptions","error: "+it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let{
+                tests.value = emptyList()
                 for(document in it){
-                    list.add(document.toObject())
+                    if(document.toObject<Test>().result=="Positive"||document.toObject<Test>().result=="Negative")
+                        list.add(document.toObject())
                 }
                 tests.value = list
             }

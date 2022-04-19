@@ -38,4 +38,8 @@ class ScheduleViewModel : ViewModel() {
         mRepository.getLaboratoryById(uid)
         laboratory = mRepository.laboratory
     }
+
+    fun updateSchedule(schedule: Schedule, newSchedule: Schedule){
+        mRepository.updateSchedule(schedule,newSchedule)
+    }
 }

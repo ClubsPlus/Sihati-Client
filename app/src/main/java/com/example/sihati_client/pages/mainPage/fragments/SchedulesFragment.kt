@@ -15,8 +15,15 @@ import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.databinding.FragmentSchedulesBinding
 import com.example.sihati_client.viewModels.ScheduleViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
@@ -134,7 +141,9 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
     }
 
     override fun onClick(schedule: Schedule) {
-
+        val oldSchedule = Schedule(schedule.date,schedule.laboratory_id,schedule.limite,schedule.person,schedule.time_Start,schedule.time_end)
+        val newSchedule = Schedule(schedule.date,schedule.laboratory_id,schedule.limite,schedule.person?.plus(1),schedule.time_Start,schedule.time_end)
+        mainViewModel.updateSchedule(oldSchedule,newSchedule)
     }
 
     private fun getDateTimeCalendar(){
@@ -154,4 +163,5 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         val now = Date()
         return now.after(s) && now.before(e)
     }
+
 }
