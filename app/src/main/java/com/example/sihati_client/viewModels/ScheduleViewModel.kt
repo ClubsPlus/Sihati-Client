@@ -7,6 +7,7 @@ import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.User
 import com.example.sihati_client.repositories.ScheduleRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,12 +18,13 @@ import java.time.format.DateTimeFormatter
 
 class ScheduleViewModel : ViewModel() {
     private val mRepository = ScheduleRepository()
-
+    var auth: FirebaseAuth? = null
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
     var laboratory: Laboratory? = null
 
     fun init() {
+        auth = mRepository.auth
         profile = mRepository.user
         schedules = mRepository.schedules
     }

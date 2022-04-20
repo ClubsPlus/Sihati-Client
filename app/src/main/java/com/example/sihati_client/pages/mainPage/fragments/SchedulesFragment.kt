@@ -13,24 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sihati_client.R
 import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.database.Schedule
+import com.example.sihati_client.database.Test
 import com.example.sihati_client.databinding.FragmentSchedulesBinding
 import com.example.sihati_client.viewModels.ScheduleViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.example.sihati_client.viewModels.TestViewModel
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
 
     private lateinit var binding: FragmentSchedulesBinding
     private lateinit var scheduleAdapter :ScheduleAdapter
-    lateinit var mainViewModel: ScheduleViewModel
+    lateinit var scheduleViewModel: ScheduleViewModel
+    lateinit var testViewModel: TestViewModel
 
     private var time = "Time"
     private var hour = 0
@@ -50,10 +46,15 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel = ViewModelProvider(
+        scheduleViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[ScheduleViewModel::class.java]
-        mainViewModel.init()
+
+        testViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        )[TestViewModel::class.java]
+
+        scheduleViewModel.init()
 
         recyclerViewSetup()
         setupCalendar(binding.calander)
@@ -70,14 +71,14 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         // manager to our recycler view.
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         // on below line we are initializing our adapter class.
-        scheduleAdapter = ScheduleAdapter(requireActivity(), this,mainViewModel)
+        scheduleAdapter = ScheduleAdapter(requireActivity(), this,scheduleViewModel)
 
         // on below line we are setting
         // adapter to our recycler view.
         binding.recyclerView.adapter = scheduleAdapter
         binding.recyclerView.setHasFixedSize(true)
 
-        mainViewModel.schedules?.observe(requireActivity()){ list ->
+        scheduleViewModel.schedules?.observe(requireActivity()){ list ->
             Log.d("test","I'm in the observe main")
             Log.d("test", list?.size.toString())
             list?.let {
@@ -111,8 +112,8 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
                 val date = thistoday+"/"+thismonth+"/"+day.year
                 time = "Time"
                 binding.time.text= time
-                mainViewModel.updateScheduleWithDate(date)
-                mainViewModel.schedules?.observe(requireActivity()){ list ->
+                scheduleViewModel.updateScheduleWithDate(date)
+                scheduleViewModel.schedules?.observe(requireActivity()){ list ->
                     Log.d("test","I'm in the observe calender")
                     Log.d("test", list?.size.toString())
                     list?.let {
@@ -141,9 +142,13 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
     }
 
     override fun onClick(schedule: Schedule) {
-        val oldSchedule = Schedule(schedule.date,schedule.laboratory_id,schedule.limite,schedule.person,schedule.time_Start,schedule.time_end)
-        val newSchedule = Schedule(schedule.date,schedule.laboratory_id,schedule.limite,schedule.person?.plus(1),schedule.time_Start,schedule.time_end)
-        mainViewModel.updateSchedule(oldSchedule,newSchedule)
+        val oldSchedule = Schedule(schedule.id,schedule.date,schedule.laboratory_id,schedule.limite,schedule.person,schedule.time_Start,schedule.time_end)
+        val newSchedule = Schedule(schedule.id,schedule.date,schedule.laboratory_id,schedule.limite,schedule.person?.plus(1),schedule.time_Start,schedule.time_end)
+        scheduleViewModel.updateSchedule(oldSchedule,newSchedule)
+        val test = Test(schedule.laboratory_id,"Not Tested",
+            scheduleViewModel.auth?.uid.toString(),
+            schedule.id)
+        testViewModel.createTest(test,requireActivity())
     }
 
     private fun getDateTimeCalendar(){

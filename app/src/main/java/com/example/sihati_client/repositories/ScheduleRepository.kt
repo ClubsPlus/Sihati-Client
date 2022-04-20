@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
 
 class ScheduleRepository {
 
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firestore : FirebaseFirestore = FirebaseFirestore.getInstance()
     var user: MutableLiveData<User> = MutableLiveData<User>()
     var schedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
@@ -49,12 +49,13 @@ class ScheduleRepository {
             }
             snapshot?.let{
                 for(document in it){
-                    if(document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
-                        list.add(document.toObject())
+                    if(document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!){
+                        var thisSchedule:Schedule = document.toObject()
+                        thisSchedule.id = document.id.toString()
+                        list.add(thisSchedule)
+                    }
                 }
-                Log.d("test","after cleaning the list in the repository size="+ schedules?.value?.size.toString())
                 schedules.value = list
-                Log.d("test","I'm done with seting the schedule in the repository ")
             }
         }
     }
@@ -94,7 +95,6 @@ class ScheduleRepository {
                     Log.d("exeptions","error: "+e.message.toString())
                 }
             }
-
         }else{
             Log.d("exeptions","error: the retrieving query is empty")
         }
