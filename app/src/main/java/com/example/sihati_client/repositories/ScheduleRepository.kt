@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
+import com.example.sihati_client.database.Test
 import com.example.sihati_client.database.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -23,11 +24,16 @@ class ScheduleRepository {
     var user: MutableLiveData<User> = MutableLiveData<User>()
     var schedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
 
+    private val testRepository = TestRepository()
+    var tests: MutableLiveData<List<Test>>? = null
+
     var laboratoryCollectionRef = firestore.collection("Laboratory")
     var scheduleCollectionRef = firestore.collection("Schedule")
     var laboratory: Laboratory? = null
 
     init {
+        testRepository.getTests()
+        tests = testRepository.tests
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
         getProfile()
         val currentDate= LocalDateTime.now()
@@ -49,11 +55,15 @@ class ScheduleRepository {
             }
             snapshot?.let{
                 for(document in it){
-                    if(document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!){
-                        var thisSchedule:Schedule = document.toObject()
-                        thisSchedule.id = document.id.toString()
-                        list.add(thisSchedule)
+                    val thisSchedule:Schedule = document.toObject()
+                    thisSchedule.id = document.id
+                    var result =0
+                    tests?.value?.forEach {
+                        if(it.schedule_id==thisSchedule.id) result =1
                     }
+                    if(result==0
+                        && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
+                            list.add(thisSchedule)
                 }
                 schedules.value = list
             }
