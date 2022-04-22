@@ -43,6 +43,7 @@ class ScheduleRepository {
     }
 
     fun getSchedules(date:String){
+        var result =0
         val list  = ArrayList<Schedule>()
         scheduleCollectionRef.whereEqualTo("date",date)
             .orderBy("time_Start", Query.Direction.ASCENDING)
@@ -54,15 +55,15 @@ class ScheduleRepository {
                 return@addSnapshotListener
             }
             snapshot?.let{
-                var result =0
                 for(document in it){
                     val thisSchedule:Schedule = document.toObject()
                     thisSchedule.id = document.id
+                    Log.d("test","size = " + tests?.value?.size)
                     for (test in tests?.value!!){
                         if(test.schedule_id==thisSchedule.id) {
                             result = 1
                             break
-                        }
+                        }else result = 0
                     }
                     Log.d("test","result =" +result)
                     if(result==0
