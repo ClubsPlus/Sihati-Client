@@ -79,8 +79,6 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         binding.recyclerView.setHasFixedSize(true)
 
         scheduleViewModel.schedules?.observe(requireActivity()){ list ->
-            Log.d("test","I'm in the observe main")
-            Log.d("test", list?.size.toString())
             list?.let {
                 // on below line we are updating our list.
                 scheduleAdapter.updateList(it)
@@ -114,8 +112,6 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
                 binding.time.text= time
                 scheduleViewModel.updateScheduleWithDate(date)
                 scheduleViewModel.schedules?.observe(requireActivity()){ list ->
-                    Log.d("test","I'm in the observe calender")
-                    Log.d("test", list?.size.toString())
                     list?.let {
                         // on below line we are updating our list.
                         scheduleAdapter.updateList(it)

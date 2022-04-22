@@ -54,13 +54,17 @@ class ScheduleRepository {
                 return@addSnapshotListener
             }
             snapshot?.let{
+                var result =0
                 for(document in it){
                     val thisSchedule:Schedule = document.toObject()
                     thisSchedule.id = document.id
-                    var result =0
-                    tests?.value?.forEach {
-                        if(it.schedule_id==thisSchedule.id) result =1
+                    for (test in tests?.value!!){
+                        if(test.schedule_id==thisSchedule.id) {
+                            result = 1
+                            break
+                        }
                     }
+                    Log.d("test","result =" +result)
                     if(result==0
                         && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
                             list.add(thisSchedule)
