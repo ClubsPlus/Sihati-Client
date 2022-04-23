@@ -22,14 +22,18 @@ class TestRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    var testCollectionRef = firestore.collection("Test")
+
+
     var tests: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
     var testsReady: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
-    var testCollectionRef = firestore.collection("Test")
+    var testsNotReady: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
         getTests()
         getTestsReady()
+        getTestsNotReady()
     }
 
 
@@ -50,7 +54,7 @@ class TestRepository {
         }
     }
 
-    fun getTestsReady() {
+    private fun getTestsReady() {
         val db = FirebaseFirestore.getInstance()
         val list = ArrayList<Test>()
         val ref = auth.currentUser?.let {
@@ -70,6 +74,30 @@ class TestRepository {
                         list.add(document.toObject())
                 }
                 testsReady.value = list
+            }
+        }
+    }
+
+    private fun getTestsNotReady() {
+        val db = FirebaseFirestore.getInstance()
+        val list = ArrayList<Test>()
+        val ref = auth.currentUser?.let {
+            db.collection("Test")
+                .whereEqualTo("user_id", auth.currentUser!!.uid)
+                .whereEqualTo("result","Not Tested")
+        }
+        ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->
+            list.clear()
+            tests.value = emptyList()
+            firebaseFirestoreException?.let {
+                Log.d("exeptions", "error: " + it.message.toString())
+                return@addSnapshotListener
+            }
+            snapshot?.let {
+                for (document in it) {
+                        list.add(document.toObject())
+                }
+                testsNotReady.value = list
             }
         }
     }

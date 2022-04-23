@@ -2,7 +2,7 @@ package com.example.sihati_client.database
 
 
 data class Schedule (
-    var id:String? = null,
+    var id:String? = "",
     var date:String? = "",
     var laboratory_id:String? = "",
     var limite:Int?=-1,

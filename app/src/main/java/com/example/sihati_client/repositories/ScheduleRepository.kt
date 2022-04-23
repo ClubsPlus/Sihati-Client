@@ -25,10 +25,10 @@ class ScheduleRepository {
     var schedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
 
     private val testRepository = TestRepository()
-    var tests: MutableLiveData<List<Test>>? = null
+    private var tests: MutableLiveData<List<Test>>? = null
 
-    var laboratoryCollectionRef = firestore.collection("Laboratory")
-    var scheduleCollectionRef = firestore.collection("Schedule")
+    private var laboratoryCollectionRef = firestore.collection("Laboratory")
+    private var scheduleCollectionRef = firestore.collection("Schedule")
     var laboratory: Laboratory? = null
     var schedule: Schedule? = null
 
@@ -64,7 +64,6 @@ class ScheduleRepository {
                             break
                         }else result = 0
                     }
-                    Log.d("test", "result =$result")
                     if(result==0
                         && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
                             list.add(thisSchedule)
@@ -78,7 +77,6 @@ class ScheduleRepository {
         try {
             val querySnapshot = scheduleCollectionRef.document(uid).get().await()
             if (querySnapshot.toObject<Schedule>() != null) schedule = querySnapshot.toObject<Schedule>()
-
         } catch(e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.d("exeptions", e.message.toString())

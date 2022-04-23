@@ -1,6 +1,5 @@
 package com.example.sihati_client.viewModels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sihati_client.database.Laboratory
@@ -8,13 +7,6 @@ import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.User
 import com.example.sihati_client.repositories.ScheduleRepository
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class ScheduleViewModel : ViewModel() {

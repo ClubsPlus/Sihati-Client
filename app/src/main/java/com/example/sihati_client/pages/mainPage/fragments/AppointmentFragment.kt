@@ -5,18 +5,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sihati_client.R
+import com.example.sihati_client.adapters.AppointementAdapter
+import com.example.sihati_client.adapters.TestAdapter
+import com.example.sihati_client.database.Schedule
+import com.example.sihati_client.database.Test
 import com.example.sihati_client.databinding.FragmentAppointmentBinding
 import com.example.sihati_client.databinding.FragmentHealthStatusBinding
+import com.example.sihati_client.viewModels.ScheduleViewModel
+import com.example.sihati_client.viewModels.TestViewModel
 
-class AppointmentFragment : Fragment() {
+class AppointmentFragment : Fragment(), AppointementAdapter.TaskClickInterface {
 
     private lateinit var binding: FragmentAppointmentBinding
+    private lateinit var testViewModel: TestViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
+    private lateinit var appointementAdapter :AppointementAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentAppointmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -24,5 +35,41 @@ class AppointmentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        testViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        )[TestViewModel::class.java]
+
+        testViewModel.init()
+
+        scheduleViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        )[ScheduleViewModel::class.java]
+
+        recyclerViewSetup()
+    }
+
+    private fun recyclerViewSetup() {
+        // on below line we are setting layout
+        // manager to our recycler view.
+        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        // on below line we are initializing our adapter class.
+        appointementAdapter = AppointementAdapter(requireActivity(),this,scheduleViewModel)
+
+        // on below line we are setting
+        // adapter to our recycler view.
+        binding.recyclerView.adapter = appointementAdapter
+        binding.recyclerView.setHasFixedSize(true)
+
+        testViewModel.testsNotReady?.observe(requireActivity()){ list ->
+            list?.let {
+                // on below line we are updating our list.
+                appointementAdapter.updateList(it)
+            }
+
+        }
+    }
+
+    override fun onClick(test: Test) {
     }
 }
