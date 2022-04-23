@@ -23,6 +23,7 @@ class ScheduleViewModel : ViewModel() {
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
     var laboratory: Laboratory? = null
+    var schedule: Schedule? = null
 
     fun init() {
         auth = mRepository.auth
@@ -38,6 +39,11 @@ class ScheduleViewModel : ViewModel() {
     fun getLaboratoryById(uid:String){
         mRepository.getLaboratoryById(uid)
         laboratory = mRepository.laboratory
+    }
+
+    fun getScheduleById(uid:String){
+        mRepository.getScheduleById(uid)
+        schedule = mRepository.schedule
     }
 
     fun updateSchedule(schedule: Schedule, newSchedule: Schedule){

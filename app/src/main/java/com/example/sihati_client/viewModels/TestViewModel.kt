@@ -10,9 +10,11 @@ import com.example.sihati_client.repositories.TestRepository
 class TestViewModel : ViewModel() {
     private val mRepository = TestRepository()
     var tests: MutableLiveData<List<Test>>? = null
+    var testsReady: MutableLiveData<List<Test>>? = null
 
     fun init() {
         tests = mRepository.tests
+        testsReady = mRepository.testsReady
     }
 
     fun updateScheduleWithDate(date:String){

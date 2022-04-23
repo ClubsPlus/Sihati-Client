@@ -30,6 +30,7 @@ class ScheduleRepository {
     var laboratoryCollectionRef = firestore.collection("Laboratory")
     var scheduleCollectionRef = firestore.collection("Schedule")
     var laboratory: Laboratory? = null
+    var schedule: Schedule? = null
 
     init {
         testRepository.getTests()
@@ -57,15 +58,13 @@ class ScheduleRepository {
             snapshot?.let{
                 for(document in it){
                     val thisSchedule:Schedule = document.toObject()
-                    thisSchedule.id = document.id
-                    Log.d("test","size = " + tests?.value?.size)
                     for (test in tests?.value!!){
-                        if(test.schedule_id==thisSchedule.id) {
+                        if(test.schedule_id==document.id) {
                             result = 1
                             break
                         }else result = 0
                     }
-                    Log.d("test","result =" +result)
+                    Log.d("test", "result =$result")
                     if(result==0
                         && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
                             list.add(thisSchedule)
@@ -75,13 +74,23 @@ class ScheduleRepository {
         }
     }
 
+    fun getScheduleById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val querySnapshot = scheduleCollectionRef.document(uid).get().await()
+            if (querySnapshot.toObject<Schedule>() != null) schedule = querySnapshot.toObject<Schedule>()
+
+        } catch(e: Exception) {
+            withContext(Dispatchers.Main) {
+                Log.d("exeptions", e.message.toString())
+            }
+        }
+    }
+
     fun getLaboratoryById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val querySnapshot = laboratoryCollectionRef.document(uid).get().await()
-            val thisLaboratory = querySnapshot.toObject<Laboratory>()
-            if (thisLaboratory != null) {
-                laboratory = thisLaboratory
-            }
+            if (querySnapshot.toObject<Laboratory>() != null) laboratory = querySnapshot.toObject<Laboratory>()
+
         } catch(e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.d("exeptions", e.message.toString())
@@ -115,7 +124,7 @@ class ScheduleRepository {
         }
     }
 
-    fun getProfile(){
+    private fun getProfile(){
         val db = FirebaseFirestore.getInstance()
         val ref = auth.currentUser?.let { db.collection("User").document(it.uid) }
         ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->

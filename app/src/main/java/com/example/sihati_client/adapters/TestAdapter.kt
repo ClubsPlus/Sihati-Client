@@ -2,16 +2,22 @@ package com.example.sihati_client.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.sihati_client.R
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.Test
+import com.example.sihati_client.viewModels.ScheduleViewModel
 
 class TestAdapter(
     val context: Context,
+    private val viewModel: ScheduleViewModel,
 ) : RecyclerView.Adapter<TestAdapter.TestViewHolder>() {
 
     // on below line we are creating a
@@ -28,9 +34,22 @@ class TestAdapter(
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
+        allTests[position].laboratory_id?.let {
+            viewModel.getLaboratoryById(it)
+            holder.laboratoryName.text = "${viewModel.laboratory?.name}"
+        }
 
+        allTests[position].schedule_id?.let {
+            viewModel.getScheduleById(it)
+            holder.date.text = "${viewModel.schedule?.date}"
+            holder.time.text = "${viewModel.schedule?.time_Start} - ${viewModel.schedule?.time_end}"
+        }
+
+        when(allTests[position].result){
+            "Positive" -> Glide.with(context).load(R.drawable.logo_red).into(holder.result)
+            "Negative" -> Glide.with(context).load(R.drawable.logo_green).into(holder.result)
+        }
+    }
 
     override fun getItemCount() = allTests.size
 
@@ -48,9 +67,11 @@ class TestAdapter(
         notifyDataSetChanged()
     }
 
-
     inner class TestViewHolder (itView: View) :
         RecyclerView.ViewHolder(itView) {
-
+            val laboratoryName :TextView = itemView.findViewById(R.id.laboratory_name)
+            val date :TextView = itemView.findViewById(R.id.date)
+            val time :TextView = itemView.findViewById(R.id.time)
+            val result :ImageView = itemView.findViewById(R.id.result_img)
     }
 }
