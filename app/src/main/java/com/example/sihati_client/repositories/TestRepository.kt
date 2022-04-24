@@ -36,10 +36,8 @@ class TestRepository {
         getTestsNotReady()
     }
 
-
     fun getTests() {
         val list = ArrayList<Test>()
-
         testCollectionRef.addSnapshotListener { snapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
                 Log.d("exeptions", "error: " + it.message.toString())

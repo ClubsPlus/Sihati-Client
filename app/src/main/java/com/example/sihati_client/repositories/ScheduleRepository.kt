@@ -57,16 +57,16 @@ class ScheduleRepository {
             }
             snapshot?.let{
                 for(document in it){
-                    val thisSchedule:Schedule = document.toObject()
                     for (test in tests?.value!!){
-                        if(test.schedule_id==document.id) {
+                        if(test.schedule_id==document.toObject<Schedule>().id
+                            &&test.user_id==auth.currentUser?.uid) {
                             result = 1
                             break
                         }else result = 0
                     }
                     if(result==0
                         && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
-                            list.add(thisSchedule)
+                            list.add(document.toObject())
                 }
                 schedules.value = list
             }
