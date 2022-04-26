@@ -23,14 +23,22 @@ class ScheduleRepository {
     private var firestore : FirebaseFirestore = FirebaseFirestore.getInstance()
     var user: MutableLiveData<User> = MutableLiveData<User>()
     var schedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
+    var allSchedules:  MutableLiveData<List<Schedule>?> = MutableLiveData<List<Schedule>?>()
 
     private val testRepository = TestRepository()
     private var tests: MutableLiveData<List<Test>>? = null
 
     private var laboratoryCollectionRef = firestore.collection("Laboratory")
     private var scheduleCollectionRef = firestore.collection("Schedule")
+
     var laboratory: Laboratory? = null
     var schedule: Schedule? = null
+
+//    var mySchedule= HashMap<String,Schedule>()
+//    var mylaboratory= HashMap<String,Laboratory>()
+
+    var mylaboratory:  MutableLiveData<HashMap<String,Laboratory>?> = MutableLiveData<HashMap<String,Laboratory>?>()
+    var mySchedule:  MutableLiveData<HashMap<String,Schedule>> = MutableLiveData<HashMap<String,Schedule>>()
 
     init {
         testRepository.getTests()
@@ -41,6 +49,7 @@ class ScheduleRepository {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val date = currentDate.format(formatter)
         getSchedules(date)
+        getAllSchedules()
     }
 
     fun getSchedules(date:String){
@@ -58,25 +67,49 @@ class ScheduleRepository {
             snapshot?.let{
                 for(document in it){
                     for (test in tests?.value!!){
-                        if(test.schedule_id==document.toObject<Schedule>().id
-                            &&test.user_id==auth.currentUser?.uid) {
-                            result = 1
-                            break
+                        if(test.schedule_id==document.id && test.user_id==auth.currentUser?.uid) {
+                                result = 1
+                                break
                         }else result = 0
                     }
                     if(result==0
-                        && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!)
-                            list.add(document.toObject())
+                        && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!) {
+                        val thisSchedule :Schedule= document.toObject()
+                        thisSchedule.id = document.id
+                        list.add(thisSchedule)
+                    }
                 }
                 schedules.value = list
             }
         }
     }
 
+    fun getAllSchedules(){
+        val list  = ArrayList<Schedule>()
+        scheduleCollectionRef.addSnapshotListener(MetadataChanges.INCLUDE) {snapshot, firebaseFirestoreException ->
+            firebaseFirestoreException?.let{
+                return@addSnapshotListener
+            }
+            snapshot?.let{
+                for(document in it){
+                    list.add(document.toObject())
+                }
+                allSchedules.value = list
+                Log.d("test","size in the repo= "+allSchedules.value?.size.toString())
+            }
+        }
+    }
+
     fun getScheduleById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
+            val list : HashMap<String, Schedule> = mySchedule.value!!
             val querySnapshot = scheduleCollectionRef.document(uid).get().await()
-            if (querySnapshot.toObject<Schedule>() != null) schedule = querySnapshot.toObject<Schedule>()
+            if (querySnapshot.toObject<Schedule>() != null) {
+                schedule = querySnapshot.toObject<Schedule>()
+                list.set(uid, querySnapshot.toObject()!!)
+                Log.d("test","in the repo = "+ mySchedule.value?.get(uid)?.date.toString())
+            }
+            mySchedule.value = list
         } catch(e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.d("exeptions", e.message.toString())
@@ -87,8 +120,10 @@ class ScheduleRepository {
     fun getLaboratoryById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val querySnapshot = laboratoryCollectionRef.document(uid).get().await()
-            if (querySnapshot.toObject<Laboratory>() != null) laboratory = querySnapshot.toObject<Laboratory>()
-
+            if (querySnapshot.toObject<Laboratory>() != null) {
+                laboratory = querySnapshot.toObject<Laboratory>()
+                mylaboratory.value?.set(uid, querySnapshot.toObject()!!)
+            }
         } catch(e: Exception) {
             withContext(Dispatchers.Main) {
                 Log.d("exeptions", e.message.toString())

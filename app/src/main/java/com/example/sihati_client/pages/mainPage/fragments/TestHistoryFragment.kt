@@ -1,16 +1,14 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sihati_client.R
-import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.adapters.TestAdapter
-import com.example.sihati_client.databinding.FragmentSchedulesBinding
 import com.example.sihati_client.databinding.FragmentTestHistoryBinding
 import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.example.sihati_client.viewModels.TestViewModel
@@ -43,6 +41,7 @@ class TestHistoryFragment : Fragment() {
         )[TestViewModel::class.java]
 
         testViewModel.init()
+        scheduleViewModel.init()
 
         recyclerViewSetup()
     }
@@ -52,19 +51,28 @@ class TestHistoryFragment : Fragment() {
         // manager to our recycler view.
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         // on below line we are initializing our adapter class.
-        testAdapter = TestAdapter(requireActivity(),scheduleViewModel)
+        testAdapter = TestAdapter(requireActivity())
 
         // on below line we are setting
         // adapter to our recycler view.
         binding.recyclerView.adapter = testAdapter
         binding.recyclerView.setHasFixedSize(true)
 
-        testViewModel.testsReady?.observe(requireActivity()){ list ->
-            list?.let {
+        scheduleViewModel.allSchedules?.observe(requireActivity()){ list ->
+            list?.let { schedules->
                 // on below line we are updating our list.
-                testAdapter.updateList(it)
+                testAdapter.updateList(testAdapter.allTests,schedules)
+                Log.d("test","size in the observer= "+ scheduleViewModel.allSchedules?.value?.size.toString())
             }
+        }
+        Log.d("test","size after the observer= "+ scheduleViewModel.allSchedules?.value?.size.toString())
 
+
+        testViewModel.testsReady?.observe(requireActivity()){ list ->
+            list?.let { tests->
+                // on below line we are updating our list.
+                testAdapter.updateList(tests,testAdapter.allSchedules)
+            }
         }
     }
 }

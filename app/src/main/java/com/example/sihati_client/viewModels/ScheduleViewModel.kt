@@ -1,5 +1,6 @@
 package com.example.sihati_client.viewModels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sihati_client.database.Laboratory
@@ -14,13 +15,24 @@ class ScheduleViewModel : ViewModel() {
     var auth: FirebaseAuth? = null
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
+    var allSchedules: MutableLiveData<List<Schedule>?>? = null
     var laboratory: Laboratory? = null
     var schedule: Schedule? = null
+
+//    var mySchedule= HashMap<String,Schedule>()
+//    var mylaboratory= HashMap<String,Laboratory>()
+    var mylaboratory:  MutableLiveData<HashMap<String,Laboratory>?>? = null
+    var mySchedule:  MutableLiveData<HashMap<String,Schedule>>? = null
 
     fun init() {
         auth = mRepository.auth
         profile = mRepository.user
         schedules = mRepository.schedules
+        mySchedule = mRepository.mySchedule
+        mylaboratory = mRepository.mylaboratory
+        allSchedules = mRepository.allSchedules
+        Log.d("test","size in the viewmodel= "+allSchedules?.value?.size.toString())
+
     }
 
     fun updateScheduleWithDate(date:String){
@@ -31,11 +43,13 @@ class ScheduleViewModel : ViewModel() {
     fun getLaboratoryById(uid:String){
         mRepository.getLaboratoryById(uid)
         laboratory = mRepository.laboratory
+        mylaboratory = mRepository.mylaboratory
     }
 
     fun getScheduleById(uid:String){
         mRepository.getScheduleById(uid)
         schedule = mRepository.schedule
+        mySchedule = mRepository.mySchedule
     }
 
     fun updateSchedule(schedule: Schedule, newSchedule: Schedule){
