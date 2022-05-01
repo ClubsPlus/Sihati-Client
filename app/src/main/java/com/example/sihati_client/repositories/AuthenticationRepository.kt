@@ -12,6 +12,8 @@ import com.example.sihati_client.pages.mainPage.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +28,12 @@ class AuthenticationRepository(private val application: Application) {
 
     private var firestore = FirebaseFirestore.getInstance()
     var userCollectionRef = firestore.collection("User")
+
+    init {
+        if (auth.currentUser != null) {
+            firebaseUserMutableLiveData.postValue(auth.currentUser)
+        }
+    }
 
     fun register(email: String?, pass: String?,id: String?,name: String?,number: String,activity: Activity) {
         auth.createUserWithEmailAndPassword(email!!, pass!!).addOnCompleteListener { task ->
@@ -95,9 +103,23 @@ class AuthenticationRepository(private val application: Application) {
         requireActivity.startActivity(Intent(requireActivity,loginActivity::class.java))
     }
 
-    init {
-        if (auth.currentUser != null) {
-            firebaseUserMutableLiveData.postValue(auth.currentUser)
+    fun updateUser(result: String) = CoroutineScope(Dispatchers.IO).launch {
+        val userQuery = userCollectionRef.document(auth.currentUser!!.uid).get().await()
+        if(userQuery!=null){
+            try {
+                userCollectionRef.document(auth.currentUser!!.uid).set(
+                    User(userQuery.toObject<User>()!!.id,
+                        userQuery.toObject<User>()!!.name,
+                        userQuery.toObject<User>()!!.number,
+                        result),
+                    SetOptions.merge()
+                ).await()
+            }catch (e:Exception){
+                Log.d("exeptions","error: "+e.message.toString())
+            }
+
+        }else{
+            Log.d("exeptions","error: the retrieving query is empty")
         }
     }
 }

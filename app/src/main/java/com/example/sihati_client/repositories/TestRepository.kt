@@ -26,6 +26,7 @@ class TestRepository {
 
 
     var tests: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
+    var myTests: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
     var testsReady: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
     var testsNotReady: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
 
@@ -34,6 +35,7 @@ class TestRepository {
         getTests()
         getTestsReady()
         getTestsNotReady()
+        getMyTests()
     }
 
     fun getTests() {
@@ -48,6 +50,26 @@ class TestRepository {
                     list.add(document.toObject())
                 }
                 tests.value = list
+            }
+        }
+    }
+
+    fun getMyTests() {
+        val list = ArrayList<Test>()
+        auth.currentUser?.let {
+            testCollectionRef
+                .whereEqualTo("user_id",auth.currentUser!!.uid)
+                .addSnapshotListener { snapshot, firebaseFirestoreException ->
+                firebaseFirestoreException?.let {
+                    Log.d("exeptions", "error: " + it.message.toString())
+                    return@addSnapshotListener
+                }
+                snapshot?.let {
+                    for (document in it) {
+                        list.add(document.toObject())
+                    }
+                    myTests.value = list
+                }
             }
         }
     }

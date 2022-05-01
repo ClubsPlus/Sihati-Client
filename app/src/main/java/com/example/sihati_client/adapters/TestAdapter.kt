@@ -1,7 +1,6 @@
 package com.example.sihati_client.adapters
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sihati_client.R
 import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.Test
-import com.example.sihati_client.viewModels.ScheduleViewModel
 
 class TestAdapter(
     val context: Context
@@ -41,6 +38,7 @@ class TestAdapter(
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
         allTests[position].schedule_id?.let { id->
             Log.d("test","test id = $id")
+            Log.d("test","size in the adapter= "+ allSchedules.size.toString())
             allSchedules.forEach{schedule->
                 Log.d("test","schedule id = ${schedule.id}")
                 if(schedule.id==id){

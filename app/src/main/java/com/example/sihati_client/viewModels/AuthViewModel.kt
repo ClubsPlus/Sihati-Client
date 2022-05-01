@@ -25,4 +25,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         repository.signOut(requireActivity)
     }
 
+    fun updateUser(result: String){
+        repository.updateUser(result)
+    }
+
 }

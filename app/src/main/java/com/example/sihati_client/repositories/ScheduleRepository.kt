@@ -95,7 +95,6 @@ class ScheduleRepository {
                     list.add(document.toObject())
                 }
                 allSchedules.value = list
-                Log.d("test","size in the repo= "+allSchedules.value?.size.toString())
             }
         }
     }

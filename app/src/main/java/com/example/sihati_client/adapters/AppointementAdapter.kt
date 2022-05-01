@@ -32,7 +32,6 @@ class AppointementAdapter(
         return AppointementViewHolder(itemView)
     }
 
-    @SuppressLint("ResourceType", "SetTextI18n")
     override fun onBindViewHolder(holder: AppointementViewHolder, position: Int) {
         // on below line we are setting data to item of recycler view.
         allTests[position].schedule_id?.let {

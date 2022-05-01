@@ -53,20 +53,13 @@ class TestHistoryFragment : Fragment() {
         // on below line we are initializing our adapter class.
         testAdapter = TestAdapter(requireActivity())
 
-        // on below line we are setting
-        // adapter to our recycler view.
-        binding.recyclerView.adapter = testAdapter
-        binding.recyclerView.setHasFixedSize(true)
-
-        scheduleViewModel.allSchedules?.observe(requireActivity()){ list ->
+        scheduleViewModel.allSchedules.observe(requireActivity()){ list ->
             list?.let { schedules->
                 // on below line we are updating our list.
                 testAdapter.updateList(testAdapter.allTests,schedules)
-                Log.d("test","size in the observer= "+ scheduleViewModel.allSchedules?.value?.size.toString())
+                Log.d("test","size in the observer= "+ scheduleViewModel.allSchedules.value?.size.toString())
             }
         }
-        Log.d("test","size after the observer= "+ scheduleViewModel.allSchedules?.value?.size.toString())
-
 
         testViewModel.testsReady?.observe(requireActivity()){ list ->
             list?.let { tests->
@@ -74,5 +67,11 @@ class TestHistoryFragment : Fragment() {
                 testAdapter.updateList(tests,testAdapter.allSchedules)
             }
         }
+
+        // on below line we are setting
+        // adapter to our recycler view.
+        binding.recyclerView.adapter = testAdapter
+        binding.recyclerView.setHasFixedSize(true)
+        Log.d("test","size after the set= "+ testAdapter.allSchedules.size.toString())
     }
 }

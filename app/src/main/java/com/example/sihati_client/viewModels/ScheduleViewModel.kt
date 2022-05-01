@@ -15,7 +15,7 @@ class ScheduleViewModel : ViewModel() {
     var auth: FirebaseAuth? = null
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
-    var allSchedules: MutableLiveData<List<Schedule>?>? = null
+    var allSchedules: MutableLiveData<List<Schedule>?> = MutableLiveData()
     var laboratory: Laboratory? = null
     var schedule: Schedule? = null
 
@@ -31,8 +31,6 @@ class ScheduleViewModel : ViewModel() {
         mySchedule = mRepository.mySchedule
         mylaboratory = mRepository.mylaboratory
         allSchedules = mRepository.allSchedules
-        Log.d("test","size in the viewmodel= "+allSchedules?.value?.size.toString())
-
     }
 
     fun updateScheduleWithDate(date:String){

@@ -1,6 +1,7 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +13,17 @@ import com.example.sihati_client.database.User
 import com.example.sihati_client.databinding.FragmentHealthStatusBinding
 import com.example.sihati_client.viewModels.AuthViewModel
 import com.example.sihati_client.viewModels.ScheduleViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.sihati_client.viewModels.TestViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class HealthStatusFragment : Fragment() {
 
     private lateinit var binding: FragmentHealthStatusBinding
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var testViewModel: TestViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,17 +40,23 @@ class HealthStatusFragment : Fragment() {
         authViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[AuthViewModel::class.java]
+
+        testViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        )[TestViewModel::class.java]
+        testViewModel.init()
+
         //this button is temporary used to logout
         binding.settings.setOnClickListener {
             authViewModel.signOut(requireActivity())
         }
 
-
-        val mainViewModel = ViewModelProvider(
+        scheduleViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[ScheduleViewModel::class.java]
-        mainViewModel.init()
-        mainViewModel.profile?.observe(requireActivity()){
+        scheduleViewModel.init()
+
+        scheduleViewModel.profile?.observe(requireActivity()){
             user -> UpdateViews(user)
         }
     }
@@ -57,12 +65,34 @@ class HealthStatusFragment : Fragment() {
         binding.name.text = user?.name
         binding.id.text = user?.id
         binding.status.text = user?.status
-        when(user?.status){
+        when (user?.status) {
             "Positive" -> Glide.with(this).load(R.drawable.logo_red).into(binding.logo)
             "Negative" -> Glide.with(this).load(R.drawable.logo_green).into(binding.logo)
-            "Pending" -> Glide.with(this).load(R.drawable.logo_grey).into(binding.logo)
-            "Not Tested" -> Glide.with(this).load(R.drawable.logo_yellow).into(binding.logo)
+            "Pending" -> Glide.with(this).load(R.drawable.logo_yellow).into(binding.logo)
+            "Not Tested" -> Glide.with(this).load(R.drawable.logo_grey).into(binding.logo)
+        }
+        if(testViewModel.myTests ==null){
+            authViewModel.updateUser("Not Tested")
+            binding.expirationDate.text = "non tester"
+            binding.lastDate.text = "non tester"
+        }else {
+            testViewModel.myTests?.observe(requireActivity()) {
+                val currentDate= LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val date = currentDate.format(formatter)
+
+                for(test in it){
+                    scheduleViewModel.getScheduleById(test.schedule_id!!)
+                    binding.lastDate.text = scheduleViewModel.schedule?.date?.dropLast(5)
+                    if(test.date_end!! >= date){
+                        binding.expirationDate.text = test.date_end!!.dropLast(5)
+                    }else{
+                        binding.expirationDate.text = "non tester"
+                        authViewModel.updateUser("Not Tested")
+                    }
+                    break
+                }
+            }
         }
     }
-
 }
