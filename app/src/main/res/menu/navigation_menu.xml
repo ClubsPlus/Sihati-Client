@@ -6,24 +6,24 @@
         android:id="@+id/healthStatus"
         android:title="Profile"
         android:icon="@drawable/profile"
-        app:cnb_iconColor="@color/green"/>
+        app:cnb_iconColor="@color/beige"/>
 
     <item
         android:id="@+id/schedules"
         android:title="programme"
         android:icon="@drawable/schedule"
-        app:cnb_iconColor="@color/green"/>
+        app:cnb_iconColor="@color/beige"/>
 
     <item
         android:id="@+id/appointment"
         android:title="Rendez vous"
         android:icon="@drawable/time"
-        app:cnb_iconColor="@color/green"/>
+        app:cnb_iconColor="@color/beige"/>
 
     <item
         android:id="@+id/testHistory"
         android:title="Historique"
         android:icon="@drawable/history"
-        app:cnb_iconColor="@color/green"/>
+        app:cnb_iconColor="@color/beige"/>
 
 </menu>
