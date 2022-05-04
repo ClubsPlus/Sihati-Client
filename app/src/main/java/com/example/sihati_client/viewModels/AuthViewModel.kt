@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.sihati_client.database.User
 import com.example.sihati_client.pages.authPages.LoginActivity
 import com.example.sihati_client.repositories.AuthenticationRepository
 import com.google.firebase.auth.FirebaseUser
@@ -25,8 +26,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         repository.signOut(requireActivity)
     }
 
-    fun updateUser(result: String){
-        repository.updateUser(result)
+    fun updateUser(user: User){
+        repository.updateUser(user)
     }
 
 }

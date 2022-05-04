@@ -72,7 +72,8 @@ class HealthStatusFragment : Fragment() {
             "Not Tested" -> Glide.with(this).load(R.drawable.logo_grey).into(binding.logo)
         }
         if(testViewModel.myTests ==null){
-            authViewModel.updateUser("Not Tested")
+            val newUser = User(user?.id,user?.name,user?.number,"Not Tested",user?.token)
+            authViewModel.updateUser(newUser)
             binding.expirationDate.text = "non tester"
             binding.lastDate.text = "non tester"
         }else {
@@ -80,7 +81,6 @@ class HealthStatusFragment : Fragment() {
                 val currentDate= LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 val date = currentDate.format(formatter)
-
                 for(test in it){
                     scheduleViewModel.getScheduleById(test.schedule_id!!)
                     binding.lastDate.text = scheduleViewModel.schedule?.date?.dropLast(5)
@@ -88,7 +88,8 @@ class HealthStatusFragment : Fragment() {
                         binding.expirationDate.text = test.date_end!!.dropLast(5)
                     }else{
                         binding.expirationDate.text = "non tester"
-                        authViewModel.updateUser("Not Tested")
+                        val newUser = User(user?.id,user?.name,user?.number,"Not Tested",user?.token)
+                        authViewModel.updateUser(newUser)
                     }
                     break
                 }

@@ -3,6 +3,7 @@ package com.example.sihati_client.repositories
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -14,11 +15,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+
 
 
 class AuthenticationRepository(private val application: Application) {
@@ -82,6 +85,16 @@ class AuthenticationRepository(private val application: Application) {
                 if(document.id==user.uid){
                     succes = 1
                     firebaseUserMutableLiveData.postValue(auth.currentUser)
+                    FirebaseMessaging.getInstance().token
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                if (task.result != null && !TextUtils.isEmpty(task.result)) {
+                                    val thisUser: User = document.toObject()!!
+                                    thisUser.token = task.result!!
+                                    updateUser(thisUser)
+                                }
+                            }
+                        }
                     break
                 }
             }
@@ -103,15 +116,12 @@ class AuthenticationRepository(private val application: Application) {
         requireActivity.startActivity(Intent(requireActivity,loginActivity::class.java))
     }
 
-    fun updateUser(result: String) = CoroutineScope(Dispatchers.IO).launch {
+    fun updateUser(user: User) = CoroutineScope(Dispatchers.IO).launch {
         val userQuery = userCollectionRef.document(auth.currentUser!!.uid).get().await()
         if(userQuery!=null){
             try {
                 userCollectionRef.document(auth.currentUser!!.uid).set(
-                    User(userQuery.toObject<User>()!!.id,
-                        userQuery.toObject<User>()!!.name,
-                        userQuery.toObject<User>()!!.number,
-                        result),
+                    user,
                     SetOptions.merge()
                 ).await()
             }catch (e:Exception){
