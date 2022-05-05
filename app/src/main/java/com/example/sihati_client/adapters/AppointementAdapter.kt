@@ -34,8 +34,7 @@ class AppointementAdapter(
     override fun onBindViewHolder(holder: AppointementViewHolder, position: Int) {
         // on below line we are setting data to item of recycler view.
         allTests[position].schedule_id?.let {
-            viewModel.getScheduleByIdAndSet(it,holder.date,holder.startTime,holder.endTime)
-
+            viewModel.getScheduleByIdAndSet(it,holder.date,holder.startTime,holder.endTime, full = true)
         }
 
         allTests[position].laboratory_id?.let {

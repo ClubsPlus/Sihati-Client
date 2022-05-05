@@ -101,11 +101,14 @@ class ScheduleRepository {
     }
 
     @SuppressLint("SetTextI18n")
-    fun getScheduleById(uid:String, date: TextView?=null, startTime: TextView?=null, endTime: TextView?=null, time: TextView?=null){
+    fun getScheduleByIdAndSet(uid:String, date: TextView?=null, startTime: TextView?=null, endTime: TextView?=null, time: TextView?=null, full: Boolean?=null){
         scheduleCollectionRef.document(uid).get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    date?.text = "${document.toObject<Schedule>()?.date}"
+                    if(full == true)
+                        date?.text = "${document.toObject<Schedule>()?.date}"
+                    else
+                        date?.text = "${document.toObject<Schedule>()?.date?.dropLast(5)}"
                     startTime?.text = "${document.toObject<Schedule>()?.time_Start}"
                     endTime?.text = "${document.toObject<Schedule>()?.time_end}"
                     time?.text = "${document.toObject<Schedule>()?.time_Start} - ${document.toObject<Schedule>()?.time_end}"

@@ -1,6 +1,5 @@
 package com.example.sihati_client.viewModels
 
-import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,8 +42,8 @@ class ScheduleViewModel : ViewModel() {
         mRepository.getLaboratoryById(uid,laboratoryName)
     }
 
-    fun getScheduleByIdAndSet(uid:String,date:TextView,startTime:TextView?=null,endTime:TextView?=null,time:TextView?=null){
-        mRepository.getScheduleById(uid,date,startTime,endTime,time)
+    fun getScheduleByIdAndSet(uid:String,date:TextView,startTime:TextView?=null,endTime:TextView?=null,time:TextView?=null,full:Boolean?=null){
+        mRepository.getScheduleByIdAndSet(uid,date,startTime,endTime,time,full)
     }
 
     fun updateSchedule(schedule: Schedule, newSchedule: Schedule){

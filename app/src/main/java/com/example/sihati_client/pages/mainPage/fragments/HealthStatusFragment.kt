@@ -82,7 +82,7 @@ class HealthStatusFragment : Fragment() {
                 val date = currentDate.format(formatter)
                 for(test in it){
                     test.schedule_id?.let{
-                        scheduleViewModel.getScheduleByIdAndSet(test.schedule_id!!, date = binding.lastDate)
+                        scheduleViewModel.getScheduleByIdAndSet(test.schedule_id!!, date = binding.lastDate, full = false)
                     }
                     if(test.date_end!! >= date){
                         binding.expirationDate.text = test.date_end!!.dropLast(5)

@@ -39,7 +39,7 @@ class TestAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
         allTests[position].schedule_id?.let{
-            viewModel.getScheduleByIdAndSet(it, date = holder.date, time = holder.time)
+            viewModel.getScheduleByIdAndSet(it, date = holder.date, time = holder.time, full = true)
         }
 
         allTests[position].laboratory_id?.let{
