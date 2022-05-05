@@ -3,7 +3,6 @@ package com.example.sihati_client.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +41,7 @@ class ScheduleAdapter(
         holder.time.text = allSchedules[position].time_Start+" - "+allSchedules[position].time_end
         holder.persons.text = allSchedules[position].person.toString()+"/"+allSchedules[position].limite.toString()
         allSchedules[position].laboratory_id?.let {
-            viewModel.getLaboratoryById(it)
-            holder.laboratoryName.text = viewModel.laboratory?.name
+            viewModel.getLaboratoryByIdAndSet(it,holder.laboratoryName)
         }
 
         val progress = ((allSchedules[position].person)!! *100)/ allSchedules[position].limite!!

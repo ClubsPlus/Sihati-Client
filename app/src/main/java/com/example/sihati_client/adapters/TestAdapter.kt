@@ -14,9 +14,11 @@ import com.example.sihati_client.R
 import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.Test
+import com.example.sihati_client.viewModels.ScheduleViewModel
 
 class TestAdapter(
-    val context: Context
+    val context: Context,
+    private val viewModel: ScheduleViewModel
 ) : RecyclerView.Adapter<TestAdapter.TestViewHolder>() {
 
     // on below line we are creating a
@@ -36,28 +38,14 @@ class TestAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        allTests[position].schedule_id?.let { id->
-            Log.d("test","test id = $id")
-            Log.d("test","size in the adapter= "+ allSchedules.size.toString())
-            allSchedules.forEach{schedule->
-                Log.d("test","schedule id = ${schedule.id}")
-                if(schedule.id==id){
-                    Log.d("test","yes")
-                    holder.date.text = "${schedule.date}"
-                    holder.time.text = "${schedule.time_Start} - ${schedule.time_end}"
-                }
-            }
+        allTests[position].schedule_id?.let{
+            viewModel.getScheduleByIdAndSet(it, date = holder.date, time = holder.time)
         }
 
-//        allTests[position].laboratory_id?.let { id->
-//            Log.d("test","test id = $id")
-//            allLaboratories.forEach{laboratory->
-//                if(laboratory.id==id){
-//                    Log.d("test","yes")
-//                    holder.laboratoryName.text = "${laboratory.name}"
-//                }
-//            }
-//        }
+        allTests[position].laboratory_id?.let{
+            viewModel.getLaboratoryByIdAndSet(it, holder.laboratoryName)
+        }
+
         when(allTests[position].result){
             "Positive" -> Glide.with(context).load(R.drawable.logo_red).into(holder.result)
             "Negative" -> Glide.with(context).load(R.drawable.logo_green).into(holder.result)

@@ -1,7 +1,6 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,8 +81,9 @@ class HealthStatusFragment : Fragment() {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 val date = currentDate.format(formatter)
                 for(test in it){
-                    scheduleViewModel.getScheduleById(test.schedule_id!!)
-                    binding.lastDate.text = scheduleViewModel.schedule?.date?.dropLast(5)
+                    test.schedule_id?.let{
+                        scheduleViewModel.getScheduleByIdAndSet(test.schedule_id!!, date = binding.lastDate)
+                    }
                     if(test.date_end!! >= date){
                         binding.expirationDate.text = test.date_end!!.dropLast(5)
                     }else{

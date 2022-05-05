@@ -51,7 +51,7 @@ class TestHistoryFragment : Fragment() {
         // manager to our recycler view.
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         // on below line we are initializing our adapter class.
-        testAdapter = TestAdapter(requireActivity())
+        testAdapter = TestAdapter(requireActivity(),scheduleViewModel)
 
         scheduleViewModel.allSchedules.observe(requireActivity()){ list ->
             list?.let { schedules->

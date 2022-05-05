@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -35,12 +34,12 @@ class AppointementAdapter(
     override fun onBindViewHolder(holder: AppointementViewHolder, position: Int) {
         // on below line we are setting data to item of recycler view.
         allTests[position].schedule_id?.let {
-            viewModel.getScheduleById(it)
-            holder.date.text = "${viewModel.schedule?.date}"
-            holder.startTime.text = "${viewModel.schedule?.time_Start}"
-            holder.endTime.text = "${viewModel.schedule?.time_end}"
-            viewModel.getScheduleById(viewModel.schedule?.laboratory_id.toString())
-            holder.laboratoryName.text = "${viewModel.laboratory?.name}"
+            viewModel.getScheduleByIdAndSet(it,holder.date,holder.startTime,holder.endTime)
+
+        }
+
+        allTests[position].laboratory_id?.let {
+            viewModel.getLaboratoryByIdAndSet(it,holder.laboratoryName)
         }
         holder.schedule.setOnClickListener { taskClickInterface?.onClick(allTests[position]) }
     }

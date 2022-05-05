@@ -1,6 +1,8 @@
 package com.example.sihati_client.repositories
 
+import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.Laboratory
 import com.example.sihati_client.database.Schedule
@@ -34,8 +36,7 @@ class ScheduleRepository {
     var laboratory: Laboratory? = null
     var schedule: Schedule? = null
 
-//    var mySchedule= HashMap<String,Schedule>()
-//    var mylaboratory= HashMap<String,Laboratory>()
+
 
     var mylaboratory:  MutableLiveData<HashMap<String,Laboratory>?> = MutableLiveData<HashMap<String,Laboratory>?>()
     var mySchedule:  MutableLiveData<HashMap<String,Schedule>> = MutableLiveData<HashMap<String,Schedule>>()
@@ -99,35 +100,36 @@ class ScheduleRepository {
         }
     }
 
-    fun getScheduleById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val list : HashMap<String, Schedule> = mySchedule.value!!
-            val querySnapshot = scheduleCollectionRef.document(uid).get().await()
-            if (querySnapshot.toObject<Schedule>() != null) {
-                schedule = querySnapshot.toObject<Schedule>()
-                list.set(uid, querySnapshot.toObject()!!)
-                Log.d("test","in the repo = "+ mySchedule.value?.get(uid)?.date.toString())
+    @SuppressLint("SetTextI18n")
+    fun getScheduleById(uid:String, date: TextView?=null, startTime: TextView?=null, endTime: TextView?=null, time: TextView?=null){
+        scheduleCollectionRef.document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    date?.text = "${document.toObject<Schedule>()?.date}"
+                    startTime?.text = "${document.toObject<Schedule>()?.time_Start}"
+                    endTime?.text = "${document.toObject<Schedule>()?.time_end}"
+                    time?.text = "${document.toObject<Schedule>()?.time_Start} - ${document.toObject<Schedule>()?.time_end}"
+                } else {
+                    Log.d("exeptions", "No such document")
+                }
             }
-            mySchedule.value = list
-        } catch(e: Exception) {
-            withContext(Dispatchers.Main) {
-                Log.d("exeptions", e.message.toString())
+            .addOnFailureListener { exception ->
+                Log.d("exeptions", "get failed with ", exception)
             }
-        }
     }
 
-    fun getLaboratoryById(uid:String) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val querySnapshot = laboratoryCollectionRef.document(uid).get().await()
-            if (querySnapshot.toObject<Laboratory>() != null) {
-                laboratory = querySnapshot.toObject<Laboratory>()
-                mylaboratory.value?.set(uid, querySnapshot.toObject()!!)
+    fun getLaboratoryById(uid:String,laboratoryName:TextView){
+        laboratoryCollectionRef.document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    laboratoryName.text = "${document.toObject<Laboratory>()?.name}"
+                } else {
+                    Log.d("exeptions", "No such document")
+                }
             }
-        } catch(e: Exception) {
-            withContext(Dispatchers.Main) {
-                Log.d("exeptions", e.message.toString())
+            .addOnFailureListener { exception ->
+                Log.d("exeptions", "get failed with ", exception)
             }
-        }
     }
 
     fun updateSchedule(schedule: Schedule, newSchedule: Schedule) = CoroutineScope(Dispatchers.IO).launch {
