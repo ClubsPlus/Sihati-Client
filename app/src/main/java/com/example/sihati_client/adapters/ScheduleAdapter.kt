@@ -37,7 +37,7 @@ class ScheduleAdapter(
     @SuppressLint("ResourceType", "SetTextI18n")
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
         // on below line we are setting data to item of recycler view.
-        holder.date.text = allSchedules[position].date
+        holder.date.text = allSchedules[position].date?.dropLast(5)
         holder.time.text = allSchedules[position].time_Start+" - "+allSchedules[position].time_end
         holder.persons.text = allSchedules[position].person.toString()+"/"+allSchedules[position].limite.toString()
         allSchedules[position].laboratory_id?.let {

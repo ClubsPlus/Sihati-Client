@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.User
-import com.example.sihati_client.pages.authPages.LoginActivity
+import com.example.sihati_client.pages.authPages.AuthActivity
 import com.example.sihati_client.pages.mainPage.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-
 
 
 class AuthenticationRepository(private val application: Application) {
@@ -111,9 +110,8 @@ class AuthenticationRepository(private val application: Application) {
     }
 
     fun signOut(requireActivity: Activity) {
-        val loginActivity = LoginActivity()
         auth.signOut()
-        requireActivity.startActivity(Intent(requireActivity,loginActivity::class.java))
+        requireActivity.startActivity(Intent(requireActivity,AuthActivity::class.java))
     }
 
     fun updateUser(user: User) = CoroutineScope(Dispatchers.IO).launch {

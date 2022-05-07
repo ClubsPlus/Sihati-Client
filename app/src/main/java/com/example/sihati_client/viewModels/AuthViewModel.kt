@@ -2,11 +2,9 @@ package com.example.sihati_client.viewModels
 
 import android.app.Activity
 import android.app.Application
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.User
-import com.example.sihati_client.pages.authPages.LoginActivity
 import com.example.sihati_client.repositories.AuthenticationRepository
 import com.google.firebase.auth.FirebaseUser
 

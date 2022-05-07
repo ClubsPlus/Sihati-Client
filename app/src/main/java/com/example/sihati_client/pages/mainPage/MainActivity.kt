@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sihati_client.R
+import com.example.sihati_client.pages.authPages.AuthActivity
 import com.example.sihati_client.pages.authPages.LoginActivity
 import com.example.sihati_client.pages.mainPage.fragments.AppointmentFragment
 import com.example.sihati_client.pages.mainPage.fragments.HealthStatusFragment
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.userData.observe(this) { firebaseUser ->
             if (firebaseUser == null) {
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, AuthActivity::class.java))
             }
         }
 

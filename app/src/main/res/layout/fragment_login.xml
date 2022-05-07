@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.authPages.LoginActivity"
+    tools:context=".pages.authPages.ui.LoginFragment"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -35,24 +35,27 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/signup"
+        android:id="@+id/forgetPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup"
+        android:text="Mot de passe oublié?"
         android:layout_marginVertical="20dp"
         android:textSize="20dp"/>
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:layout_marginVertical="20dp"
-        android:textSize="20dp"/>
+        android:layout_marginVertical="18dp"
+        android:layout_marginHorizontal="40dp"
+        android:textSize="20dp"
+        android:paddingVertical="10dp" />
 
 </LinearLayout>
