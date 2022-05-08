@@ -72,43 +72,17 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineLeftTab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.23" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineRightTab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.77" />
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgLayout"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeftTab"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineRightTab"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tabGravity="center"
             android:background="@color/background"
-            style="@style/Widget.App.TabLayout">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Connecter"
-                android:foregroundTint="@color/blue"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Inscrire" />
-
-        </com.google.android.material.tabs.TabLayout>
-
+            style="@style/Widget.App.TabLayout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
