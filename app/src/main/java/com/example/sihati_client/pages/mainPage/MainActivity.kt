@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sihati_client.R
 import com.example.sihati_client.pages.authPages.AuthActivity
-import com.example.sihati_client.pages.authPages.LoginActivity
 import com.example.sihati_client.pages.mainPage.fragments.AppointmentFragment
 import com.example.sihati_client.pages.mainPage.fragments.HealthStatusFragment
 import com.example.sihati_client.pages.mainPage.fragments.SchedulesFragment
