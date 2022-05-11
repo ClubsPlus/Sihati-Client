@@ -12,18 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SihatiClient">
-        <activity
-            android:name=".pages.authPages.AuthActivity"
-            android:exported="true"
-            android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.SihatiClient.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
         <service
             android:name=".notification.FirebaseService"
             android:exported="true"
@@ -35,18 +23,20 @@
         </service>
 
         <activity
+            android:name=".pages.authPages.AuthActivity"
+            android:exported="true"
+            android:label="@string/title_activity_auth"
+            android:theme="@style/Theme.SihatiClient.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".pages.settingsPage.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
-        <activity
-            android:name=".pages.authPages.RecoverWordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".pages.authPages.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".pages.authPages.LoginActivity"
-            android:exported="true"/>
         <activity
             android:name=".pages.mainPage.MainActivity"
             android:exported="true" />

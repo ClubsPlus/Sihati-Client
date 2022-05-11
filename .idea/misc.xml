@@ -24,8 +24,10 @@
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/activity_auth2.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/activity_login.xml" value="0.15896739130434784" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/activity_recover_pass_word.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/appointement_item.xml" value="0.2" />
+        <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/code_bottom_sheet_content.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/fragment_appointment.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/fragment_auth.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/fragment_health_status.xml" value="0.20416666666666666" />
@@ -37,6 +39,7 @@
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/settings_activity.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/test.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/test_item.xml" value="0.264" />
+        <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/layout/view_pager_item.xml" value="0.1526268115942029" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/menu/auth_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/houss/AndroidStudioProjects/Sihati-Client/app/src/main/res/menu/mavigation_menu.xml" value="0.20416666666666666" />
