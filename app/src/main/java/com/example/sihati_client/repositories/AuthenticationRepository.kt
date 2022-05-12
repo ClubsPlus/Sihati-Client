@@ -2,18 +2,14 @@ package com.example.sihati_client.repositories
 
 import android.app.Activity
 import android.app.Application
-import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.User
 import com.example.sihati_client.pages.authPages.AuthActivity
 import com.example.sihati_client.pages.mainPage.MainActivity
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -132,45 +128,6 @@ class AuthenticationRepository(private val application: Application) {
 
         }else{
             Log.d("exeptions","error: the retrieving query is empty")
-        }
-    }
-
-    fun recoverPassword(dialog: BottomSheetDialog,
-                        email: String,
-                        progressDialog: ProgressDialog,
-                        context: Context) = CoroutineScope(Dispatchers.IO).launch {
-        withContext(Dispatchers.Main) {
-            progressDialog.setMessage("Sending password reset instruction to $email")
-            progressDialog.show()
-        }
-        try {
-            var succes = 0
-            val querySnapshot = userCollectionRef.get().await()
-            for(document in querySnapshot.documents){
-                if(document.id==auth.uid){
-                    succes = 1
-                    auth.sendPasswordResetEmail(email)
-                        .addOnSuccessListener {
-                            progressDialog.dismiss()
-                            Toast.makeText(context,"Instructions send to \n$email",Toast.LENGTH_LONG).show()
-                            dialog.dismiss()
-                        }
-                        .addOnFailureListener { e->
-                            progressDialog.dismiss()
-                            Toast.makeText(context,"Failed to send due to ${e.message}",Toast.LENGTH_LONG).show()
-                        }
-                    break
-                }
-            }
-            if(succes==0){
-                withContext(Dispatchers.Main) {
-                    progressDialog.dismiss()
-                    Toast.makeText(context, "Invalid email pattern...", Toast.LENGTH_LONG).show()
-                }
-            }
-
-        }catch (e:Exception){
-
         }
     }
 }

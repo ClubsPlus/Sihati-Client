@@ -77,6 +77,7 @@ class LoginFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.email_bottom_sheet_content, null)
         view.findViewById<Button>(R.id.send).setOnClickListener {
             email = view.findViewById<TextInputEditText>(R.id.email).text.toString().trim()
+
             if(email.isEmpty()){
                 Toast.makeText(requireContext(),"Enter email...",Toast.LENGTH_LONG).show()
             }
@@ -84,10 +85,26 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(),"Invalid email pattern...",Toast.LENGTH_LONG).show()
             }
             else{
-                viewModel.recoverPassword(dialog, email, progressDialog, requireContext())
+                recoverPassword(dialog)
             }
         }
         dialog.setContentView(view)
         dialog.show()
+    }
+
+    private fun recoverPassword(dialog: BottomSheetDialog) {
+        progressDialog.setMessage("Sending password reset instruction to $email")
+        progressDialog.show()
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                progressDialog.dismiss()
+                Toast.makeText(requireContext(),"Instructions send to \n$email",Toast.LENGTH_LONG).show()
+                dialog.dismiss()
+            }
+            .addOnFailureListener { e->
+                progressDialog.dismiss()
+                Toast.makeText(requireContext(),"Failed to send due to ${e.message}",Toast.LENGTH_LONG).show()
+            }
+
     }
 }
