@@ -27,4 +27,8 @@ class TestViewModel : ViewModel() {
     fun createTest(test: Test, activity: Activity){
         mRepository.createTest(test,activity)
     }
+    fun cancelAppointement(test: Test){
+        mRepository.cancelAppointement(test)
+
+    }
 }

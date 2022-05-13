@@ -1,5 +1,6 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.sihati_client.R
 import com.example.sihati_client.database.User
 import com.example.sihati_client.databinding.FragmentHealthStatusBinding
+import com.example.sihati_client.pages.mainPage.MainActivity
 import com.example.sihati_client.viewModels.AuthViewModel
 import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.example.sihati_client.viewModels.TestViewModel

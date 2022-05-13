@@ -14,7 +14,7 @@ import com.example.sihati_client.viewModels.ScheduleViewModel
 
 class AppointementAdapter(
     val context: Context,
-    private val taskClickInterface: TaskClickInterface?=null,
+    private val taskClickInterface: TaskClickInterface,
     private val viewModel: ScheduleViewModel
 ) : RecyclerView.Adapter<AppointementAdapter.AppointementViewHolder>(){
 
@@ -40,7 +40,7 @@ class AppointementAdapter(
         allTests[position].laboratory_id?.let {
             viewModel.getLaboratoryByIdAndSet(it,holder.laboratoryName)
         }
-        holder.schedule.setOnClickListener { taskClickInterface?.onClick(allTests[position]) }
+        holder.itemView.setOnClickListener { taskClickInterface?.onClick(allTests[position]) }
     }
 
     override fun getItemCount() = allTests.size

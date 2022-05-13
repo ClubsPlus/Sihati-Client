@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.Test
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.MetadataChanges
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +20,7 @@ class TestRepository {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var testCollectionRef = firestore.collection("Test")
-
+    var scheduleCollectionRef = firestore.collection("Schedule")
 
     var tests: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
     var myTests: MutableLiveData<List<Test>> = MutableLiveData<List<Test>>()
@@ -54,7 +51,7 @@ class TestRepository {
         }
     }
 
-    fun getMyTests() {
+    private fun getMyTests() {
         val list = ArrayList<Test>()
         auth.currentUser?.let {
             testCollectionRef
@@ -156,5 +153,36 @@ class TestRepository {
                 Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun cancelAppointement(test: Test){
+        testCollectionRef
+            .whereEqualTo("laboratory_id",test.laboratory_id)
+            .whereEqualTo("result",test.result)
+            .whereEqualTo("user_id",test.user_id)
+            .whereEqualTo("schedule_id",test.schedule_id)
+            .whereEqualTo("date_end",test.date_end)
+            .get().addOnSuccessListener {
+                for(document in it){
+                    testCollectionRef.document(document.id).delete()
+                        .addOnSuccessListener {
+                            scheduleCollectionRef.document(test.schedule_id!!).get().addOnSuccessListener { schedule ->
+                                schedule?.let{
+                                    val newSchedue: Schedule = schedule.toObject()!!
+                                    newSchedue.person = newSchedue.person!!.toInt()-1
+                                    try{
+                                        scheduleCollectionRef.document (test.schedule_id!!).set(
+                                            newSchedue,
+                                            SetOptions.merge()
+                                        )
+                                    }catch(e: Exception) {
+                                        Log.d("exeptions", "error: " + e.toString())
+                                    }
+                                }
+                            }
+
+                        }
+                }
+            }
     }
 }
