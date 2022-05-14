@@ -17,9 +17,11 @@ import com.example.sihati_client.database.Test
 import com.example.sihati_client.databinding.FragmentSchedulesBinding
 import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.example.sihati_client.viewModels.TestViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
 import java.util.*
+import kotlin.math.log
 
 class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
 
@@ -144,6 +146,8 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         val test = Test(schedule.laboratory_id,"Not Tested",
             scheduleViewModel.auth?.uid.toString(),
             schedule.id)
+        Log.d("test",schedule.id.toString())
+        FirebaseMessaging.getInstance().subscribeToTopic(schedule.id.toString())
         testViewModel.createTest(test,requireActivity())
     }
 
