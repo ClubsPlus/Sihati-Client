@@ -1,5 +1,6 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
+import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -21,14 +22,13 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
 import java.util.*
-import kotlin.math.log
 
 class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
 
     private lateinit var binding: FragmentSchedulesBinding
     private lateinit var scheduleAdapter :ScheduleAdapter
-    lateinit var scheduleViewModel: ScheduleViewModel
-    lateinit var testViewModel: TestViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
+    private lateinit var testViewModel: TestViewModel
 
     private var time = "Time"
     private var hour = 0
@@ -157,6 +157,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         minute = cal.get(Calendar.MINUTE)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
         savedhour = if(hour<10) "0$hour" else hour.toString()
         savedminute = if(minute<10) "0$minute" else minute.toString()

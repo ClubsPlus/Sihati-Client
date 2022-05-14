@@ -16,6 +16,7 @@ import com.example.sihati_client.database.Test
 import com.example.sihati_client.databinding.FragmentAppointmentBinding
 import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.example.sihati_client.viewModels.TestViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class AppointmentFragment : Fragment(), AppointementAdapter.TaskClickInterface {
@@ -79,11 +80,7 @@ class AppointmentFragment : Fragment(), AppointementAdapter.TaskClickInterface {
             ) { _, _ ->
                 Log.d("test",test.schedule_id.toString())
                 testViewModel.cancelAppointement(test)
-                Toast.makeText(
-                    requireContext(),
-                    "Yaay",
-                    Toast.LENGTH_SHORT
-                ).show()
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(test.schedule_id!!)
             }
             .setNegativeButton("non", null).show()
     }

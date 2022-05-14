@@ -16,8 +16,8 @@ import com.example.sihati_client.viewModels.TestViewModel
 class TestHistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentTestHistoryBinding
-    lateinit var scheduleViewModel: ScheduleViewModel
-    lateinit var testViewModel: TestViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
+    private lateinit var testViewModel: TestViewModel
     private lateinit var testAdapter :TestAdapter
 
     override fun onCreateView(
