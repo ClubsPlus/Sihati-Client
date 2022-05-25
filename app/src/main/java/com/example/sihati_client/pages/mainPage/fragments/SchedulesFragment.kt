@@ -147,7 +147,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
             scheduleViewModel.auth?.uid.toString(),
             schedule.id)
         Log.d("test",schedule.id.toString())
-        FirebaseMessaging.getInstance().subscribeToTopic(schedule.id.toString())
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+schedule.id.toString())
         testViewModel.createTest(test,requireActivity())
     }
 

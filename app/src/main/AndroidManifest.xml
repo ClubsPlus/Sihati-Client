@@ -24,7 +24,6 @@
         <activity
             android:name=".pages.authPages.AuthActivity"
             android:exported="true"
-            android:label="@string/title_activity_auth"
             android:theme="@style/Theme.SihatiClient.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,8 +33,7 @@
         </activity>
         <activity
             android:name=".pages.settingsPage.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings" />
+            android:exported="false" />
         <activity
             android:name=".pages.mainPage.MainActivity"
             android:exported="true" />
