@@ -2,6 +2,7 @@ package com.example.sihati_client.pages.mainPage.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.sihati_client.pages.mainPage.MainActivity
 import com.example.sihati_client.viewModels.AuthViewModel
 import com.example.sihati_client.viewModels.ScheduleViewModel
 import com.example.sihati_client.viewModels.TestViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -86,7 +88,9 @@ class HealthStatusFragment : Fragment() {
                     test.schedule_id?.let{
                         scheduleViewModel.getScheduleByIdAndSet(test.schedule_id!!, date = binding.lastDate, full = false)
                     }
-                    if(test.date_end!! >= date){
+                    if(test.date_end!!.isNotEmpty()&&test.date_end!![0].isDigit()&&
+                        LocalDate.parse(date, formatter).isBefore(LocalDate.parse(test.date_end!!, formatter))){
+                        Log.d("null","${test.date_end!!}<=$date")
                         binding.expirationDate.text = test.date_end!!.dropLast(5)
                     }else{
                         binding.expirationDate.text = "non tester"

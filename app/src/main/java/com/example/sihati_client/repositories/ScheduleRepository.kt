@@ -67,17 +67,19 @@ class ScheduleRepository {
             }
             snapshot?.let{
                 for(document in it){
-                    for (test in tests?.value!!){
-                        if(test.schedule_id==document.id && test.user_id==auth.currentUser?.uid) {
+                    if(tests?.value!=null){
+                        for (test in tests?.value!!){
+                            if(test.schedule_id==document.id && test.user_id==auth.currentUser?.uid) {
                                 result = 1
                                 break
-                        }else result = 0
-                    }
-                    if(result==0
-                        && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!) {
-                        val thisSchedule :Schedule= document.toObject()
-                        thisSchedule.id = document.id
-                        list.add(thisSchedule)
+                            }else result = 0
+                        }
+                        if(result==0
+                            && document.toObject<Schedule>().person!! < document.toObject<Schedule>().limite!!) {
+                            val thisSchedule :Schedule= document.toObject()
+                            thisSchedule.id = document.id
+                            list.add(thisSchedule)
+                        }
                     }
                 }
                 schedules.value = list
