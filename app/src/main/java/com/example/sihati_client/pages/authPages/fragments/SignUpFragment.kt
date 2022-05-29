@@ -41,19 +41,22 @@ class SignUpFragment : Fragment() {
         }
 
         binding.signup.setOnClickListener {
-            if(binding.name.text.toString().isNotEmpty()
-                &&binding.number.text.toString().isNotEmpty()
-                &&binding.id.text.toString().isNotEmpty()
-                &&binding.email.text.toString().isNotEmpty()
-                &&binding.password.text.toString().isNotEmpty()){
-                viewModel.register(binding.email.text.toString(),
-                    binding.password.text.toString(),
-                    binding.id.text.toString(),
-                    binding.name.text.toString(),
-                    binding.number.text.toString(),
-                    requireActivity())
+            if(binding.email.text.toString().substringAfter("@")=="univ-tlemcen.dz"){
+                if(binding.name.text.toString().isNotEmpty()
+                    &&binding.number.text.toString().isNotEmpty()
+                    &&binding.id.text.toString().isNotEmpty()
+                    &&binding.email.text.toString().isNotEmpty()
+                    &&binding.password.text.toString().isNotEmpty()){
+                    viewModel.register(binding.email.text.toString(),
+                        binding.password.text.toString(),
+                        binding.id.text.toString(),
+                        binding.name.text.toString(),
+                        binding.number.text.toString(),
+                        requireActivity())
+                }else
+                    Toast.makeText(requireActivity(),"fill your fields plz", Toast.LENGTH_SHORT).show()
             }else
-                Toast.makeText(requireActivity(),"fill your fields plz", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"please insert a correct email", Toast.LENGTH_SHORT).show()
         }
     }
 }

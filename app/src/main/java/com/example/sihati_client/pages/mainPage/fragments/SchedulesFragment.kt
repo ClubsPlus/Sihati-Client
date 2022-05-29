@@ -61,11 +61,11 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         recyclerViewSetup()
         setupCalendar(binding.calander)
 
-        /*setup the date and time pickers*/
-        binding.time.setOnClickListener {
-            getDateTimeCalendar()
-            TimePickerDialog(context,R.style.DialogTheme,this,hour,minute,true).show()
-        }
+//        /*setup the date and time pickers*/
+//        binding.time.setOnClickListener {
+//            getDateTimeCalendar()
+//            TimePickerDialog(context,R.style.DialogTheme,this,hour,minute,true).show()
+//        }
     }
 
     private fun recyclerViewSetup() {
@@ -111,7 +111,7 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
                 val thismonth= if(day.month + 1<10) "0"+(day.month+1).toString() else (day.month + 1).toString()
                 val date = thistoday+"/"+thismonth+"/"+day.year
                 time = "Time"
-                binding.time.text= time
+//                binding.time.text= time
                 scheduleViewModel.updateScheduleWithDate(date)
                 scheduleViewModel.schedules?.observe(requireActivity()){ list ->
                     list?.let {
@@ -159,15 +159,14 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
 
     @SuppressLint("SetTextI18n")
     override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
-        savedhour = if(hour<10) "0$hour" else hour.toString()
-        savedminute = if(minute<10) "0$minute" else minute.toString()
-        binding.time.text = "$savedhour:$savedminute"
-        time  = "$savedhour:$savedminute"
+//        savedhour = if(hour<10) "0$hour" else hour.toString()
+//        savedminute = if(minute<10) "0$minute" else minute.toString()
+//        binding.time.text = "$savedhour:$savedminute"
+//        time  = "$savedhour:$savedminute"
     }
 
     fun isNowBetweenDateTime(s: Date?, e: Date?): Boolean {
         val now = Date()
         return now.after(s) && now.before(e)
     }
-
 }
