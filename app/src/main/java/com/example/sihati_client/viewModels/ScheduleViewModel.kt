@@ -9,18 +9,14 @@ import com.example.sihati_client.database.User
 import com.example.sihati_client.repositories.ScheduleRepository
 import com.google.firebase.auth.FirebaseAuth
 
-
 class ScheduleViewModel : ViewModel() {
     private val mRepository = ScheduleRepository()
     var auth: FirebaseAuth? = null
     var profile: MutableLiveData<User>? = null
     var schedules: MutableLiveData<List<Schedule>?>? = null
     var allSchedules: MutableLiveData<List<Schedule>?> = MutableLiveData()
-    var laboratory: Laboratory? = null
     var schedule: Schedule? = null
 
-//    var mySchedule= HashMap<String,Schedule>()
-//    var mylaboratory= HashMap<String,Laboratory>()
     var mylaboratory:  MutableLiveData<HashMap<String,Laboratory>?>? = null
     var mySchedule:  MutableLiveData<HashMap<String,Schedule>>? = null
 

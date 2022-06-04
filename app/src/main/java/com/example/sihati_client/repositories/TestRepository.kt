@@ -39,7 +39,7 @@ class TestRepository {
         val list = ArrayList<Test>()
         testCollectionRef.addSnapshotListener { snapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
-                Log.d("exeptions", "error: " + it.message.toString())
+                Log.d("exception", "error: " + it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let {
@@ -58,7 +58,7 @@ class TestRepository {
                 .whereEqualTo("user_id",auth.currentUser!!.uid)
                 .addSnapshotListener { snapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
-                    Log.d("exeptions", "error: " + it.message.toString())
+                    Log.d("exception", "error: " + it.message.toString())
                     return@addSnapshotListener
                 }
                 snapshot?.let {
@@ -82,7 +82,7 @@ class TestRepository {
             list.clear()
             tests.value = emptyList()
             firebaseFirestoreException?.let {
-                Log.d("exeptions", "error: " + it.message.toString())
+                Log.d("exception", "error: " + it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let {
@@ -107,7 +107,7 @@ class TestRepository {
             list.clear()
             tests.value = emptyList()
             firebaseFirestoreException?.let {
-                Log.d("exeptions", "error: " + it.message.toString())
+                Log.d("exception", "error: " + it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let {
@@ -119,34 +119,11 @@ class TestRepository {
         }
     }
 
-    fun getTestsWithDate(date: String) {
-        val db = FirebaseFirestore.getInstance()
-        val list = ArrayList<Test>()
-        db.collection("Schedule").whereEqualTo("date", date)
-            .orderBy("time_Start", Query.Direction.ASCENDING)
-            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, firebaseFirestoreException ->
-                tests.value = emptyList()
-                list.clear()
-                firebaseFirestoreException?.let {
-                    Log.d("exeptions", "error: " + it.message.toString())
-                    return@addSnapshotListener
-                }
-                snapshot?.let {
-                    tests.value = emptyList()
-                    for (document in it) {
-                        if (document.toObject<Test>().result == "Positive" || document.toObject<Test>().result == "Negative")
-                            list.add(document.toObject())
-                    }
-                    tests.value = list
-                }
-            }
-    }
-
     fun createTest(test: Test, activity: Activity) = CoroutineScope(Dispatchers.IO).launch {
         try {
             testCollectionRef.add(test).await()
             withContext(Dispatchers.Main) {
-                Toast.makeText(activity, "successfully saved data", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Données enregistrées avec succès", Toast.LENGTH_LONG).show()
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -176,7 +153,7 @@ class TestRepository {
                                             SetOptions.merge()
                                         )
                                     }catch(e: Exception) {
-                                        Log.d("exeptions", "error: " + e.toString())
+                                        Log.d("exception", "error: $e")
                                     }
                                 }
                             }

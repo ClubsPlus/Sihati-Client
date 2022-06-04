@@ -1,5 +1,6 @@
 package com.example.sihati_client.pages.authPages.fragments
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -52,12 +53,8 @@ class LoginFragment : Fragment() {
         }
 
         progressDialog = ProgressDialog(requireContext())
-        progressDialog.setTitle("Please wait...")
+        progressDialog.setTitle("S'il vous plaît, attendez...")
         progressDialog.setCanceledOnTouchOutside(false)
-
-//        binding.forgetPassword.setOnClickListener {
-//            startActivity(Intent(requireActivity(), SignUpActivity::class.java))
-//        }
 
         binding.login.setOnClickListener {
             if(binding.email.text.toString().isNotEmpty()
@@ -72,6 +69,7 @@ class LoginFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun setupEmailDialog(){
         val dialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.email_bottom_sheet_content, null)
@@ -79,10 +77,10 @@ class LoginFragment : Fragment() {
             email = view.findViewById<TextInputEditText>(R.id.email).text.toString().trim()
 
             if(email.isEmpty()){
-                Toast.makeText(requireContext(),"Enter email...",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Entrez un Email...",Toast.LENGTH_LONG).show()
             }
             else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                Toast.makeText(requireContext(),"Invalid email pattern...",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Modèle d'e-mail invalide...",Toast.LENGTH_LONG).show()
             }
             else{
                 recoverPassword(dialog)
@@ -93,18 +91,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun recoverPassword(dialog: BottomSheetDialog) {
-        progressDialog.setMessage("Sending password reset instruction to $email")
+        progressDialog.setMessage("Envoi de l'instruction de réinitialisation du mot de passe à $email")
         progressDialog.show()
         firebaseAuth.sendPasswordResetEmail(email)
             .addOnSuccessListener {
                 progressDialog.dismiss()
-                Toast.makeText(requireContext(),"Instructions send to \n$email",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Instructions envoyées à \n$email",Toast.LENGTH_LONG).show()
                 dialog.dismiss()
             }
             .addOnFailureListener { e->
                 progressDialog.dismiss()
-                Toast.makeText(requireContext(),"Failed to send due to ${e.message}",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Échec de l'envoi en raison de ${e.message}",Toast.LENGTH_LONG).show()
             }
-
     }
 }

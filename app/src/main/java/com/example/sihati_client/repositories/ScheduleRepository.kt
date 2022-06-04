@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -33,10 +32,7 @@ class ScheduleRepository {
     private var laboratoryCollectionRef = firestore.collection("Laboratory")
     private var scheduleCollectionRef = firestore.collection("Schedule")
 
-    var laboratory: Laboratory? = null
     var schedule: Schedule? = null
-
-
 
     var mylaboratory:  MutableLiveData<HashMap<String,Laboratory>?> = MutableLiveData<HashMap<String,Laboratory>?>()
     var mySchedule:  MutableLiveData<HashMap<String,Schedule>> = MutableLiveData<HashMap<String,Schedule>>()
@@ -62,7 +58,7 @@ class ScheduleRepository {
             schedules.value = emptyList()
             list.clear()
             firebaseFirestoreException?.let{
-                Log.d("exeptions","error: "+it.message.toString())
+                Log.d("exception","error: "+it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let{
@@ -115,11 +111,11 @@ class ScheduleRepository {
                     endTime?.text = "${document.toObject<Schedule>()?.time_end}"
                     time?.text = "${document.toObject<Schedule>()?.time_Start} - ${document.toObject<Schedule>()?.time_end}"
                 } else {
-                    Log.d("exeptions", "No such document")
+                    Log.d("exception", "No such document")
                 }
             }
             .addOnFailureListener { exception ->
-                Log.d("exeptions", "get failed with ", exception)
+                Log.d("exception", "get failed with ", exception)
             }
     }
 
@@ -129,11 +125,11 @@ class ScheduleRepository {
                 if (document != null) {
                     laboratoryName.text = "${document.toObject<Laboratory>()?.name}"
                 } else {
-                    Log.d("exeptions", "No such document")
+                    Log.d("exception", "No such document")
                 }
             }
             .addOnFailureListener { exception ->
-                Log.d("exeptions", "get failed with ", exception)
+                Log.d("exception", "get failed with ", exception)
             }
     }
 
@@ -155,11 +151,11 @@ class ScheduleRepository {
                         SetOptions.merge()
                     ).await()
                 }catch (e:Exception){
-                    Log.d("exeptions","error: "+e.message.toString())
+                    Log.d("exception","error: "+e.message.toString())
                 }
             }
         }else{
-            Log.d("exeptions","error: the retrieving query is empty")
+            Log.d("exception","error: the retrieving query is empty")
         }
     }
 
@@ -168,7 +164,7 @@ class ScheduleRepository {
         val ref = auth.currentUser?.let { db.collection("User").document(it.uid) }
         ref?.addSnapshotListener { snapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let{
-                Log.d("exeptions","error: "+it.message.toString())
+                Log.d("exception","error: "+it.message.toString())
                 return@addSnapshotListener
             }
             snapshot?.let{

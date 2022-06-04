@@ -20,15 +20,11 @@ class TestViewModel : ViewModel() {
         myTests = mRepository.myTests
     }
 
-    fun updateScheduleWithDate(date:String){
-        mRepository.getTestsWithDate(date)
-    }
-
     fun createTest(test: Test, activity: Activity){
         mRepository.createTest(test,activity)
     }
+
     fun cancelAppointement(test: Test){
         mRepository.cancelAppointement(test)
-
     }
 }

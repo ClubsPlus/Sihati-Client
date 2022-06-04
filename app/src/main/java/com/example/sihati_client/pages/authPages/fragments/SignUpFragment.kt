@@ -54,9 +54,9 @@ class SignUpFragment : Fragment() {
                         binding.number.text.toString(),
                         requireActivity())
                 }else
-                    Toast.makeText(requireActivity(),"fill your fields plz", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(),"Remplissez vos champs s'il vous plaît", Toast.LENGTH_SHORT).show()
             }else
-                Toast.makeText(requireActivity(),"please insert a correct email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Veuillez insérer un e-mail correct", Toast.LENGTH_SHORT).show()
         }
     }
 }

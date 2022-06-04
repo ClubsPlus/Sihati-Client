@@ -1,7 +1,6 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +56,6 @@ class TestHistoryFragment : Fragment() {
             list?.let { schedules->
                 // on below line we are updating our list.
                 testAdapter.updateList(testAdapter.allTests,schedules)
-                Log.d("test","size in the observer= "+ scheduleViewModel.allSchedules.value?.size.toString())
             }
         }
 
@@ -72,6 +70,5 @@ class TestHistoryFragment : Fragment() {
         // adapter to our recycler view.
         binding.recyclerView.adapter = testAdapter
         binding.recyclerView.setHasFixedSize(true)
-        Log.d("test","size after the set= "+ testAdapter.allSchedules.size.toString())
     }
 }

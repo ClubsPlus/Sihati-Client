@@ -40,7 +40,8 @@ class AppointementAdapter(
         allTests[position].laboratory_id?.let {
             viewModel.getLaboratoryByIdAndSet(it,holder.laboratoryName)
         }
-        holder.itemView.setOnClickListener { taskClickInterface?.onClick(allTests[position]) }
+
+        holder.itemView.setOnClickListener { taskClickInterface.onClick(allTests[position]) }
     }
 
     override fun getItemCount() = allTests.size

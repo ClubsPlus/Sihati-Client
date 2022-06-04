@@ -22,11 +22,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-
 class AuthenticationRepository(private val application: Application) {
     val firebaseUserMutableLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
 
     private var firestore = FirebaseFirestore.getInstance()
     var userCollectionRef = firestore.collection("User")
@@ -53,13 +51,13 @@ class AuthenticationRepository(private val application: Application) {
         try{
             userCollectionRef.document(uid).set(user).await()
               withContext(Dispatchers.Main){
-                Toast.makeText(activity,"account created successfully",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,"Compte créé avec succès",Toast.LENGTH_LONG).show()
                 val mainActivity = MainActivity()
                 activity.startActivity(Intent(activity,mainActivity::class.java))
               }
         }catch (e: Exception){
             withContext(Dispatchers.Main) {
-                Log.d("Test",e.message.toString())
+                Log.d("exception","error: "+e.message.toString())
             }
         }
     }
@@ -99,13 +97,13 @@ class AuthenticationRepository(private val application: Application) {
             }
             if(succes==0){
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(activity, "email or password is not correct", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "l'email ou le mot de passe n'est pas correct", Toast.LENGTH_LONG).show()
                     signOut(activity)
                 }
             }
 
         }catch (e:Exception){
-
+            Log.d("exception",e.message.toString())
         }
     }
 
@@ -123,11 +121,11 @@ class AuthenticationRepository(private val application: Application) {
                     SetOptions.merge()
                 ).await()
             }catch (e:Exception){
-                Log.d("exeptions","error: "+e.message.toString())
+                Log.d("exception","error: "+e.message.toString())
             }
 
         }else{
-            Log.d("exeptions","error: the retrieving query is empty")
+            Log.d("exception","error: the retrieving query is empty")
         }
     }
 }

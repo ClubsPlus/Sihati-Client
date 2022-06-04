@@ -1,17 +1,13 @@
 package com.example.sihati_client.pages.mainPage.fragments
 
-import android.annotation.SuppressLint
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sihati_client.R
 import com.example.sihati_client.adapters.ScheduleAdapter
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.database.Test
@@ -21,20 +17,13 @@ import com.example.sihati_client.viewModels.TestViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import com.shrikanthravi.collapsiblecalendarview.data.Day
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
-import java.util.*
 
-class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePickerDialog.OnTimeSetListener {
+class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface{
 
     private lateinit var binding: FragmentSchedulesBinding
     private lateinit var scheduleAdapter :ScheduleAdapter
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var testViewModel: TestViewModel
-
-    private var time = "Time"
-    private var hour = 0
-    private var minute = 0
-    private var savedhour = "0"
-    private var savedminute = "0"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,12 +49,6 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
 
         recyclerViewSetup()
         setupCalendar(binding.calander)
-
-//        /*setup the date and time pickers*/
-//        binding.time.setOnClickListener {
-//            getDateTimeCalendar()
-//            TimePickerDialog(context,R.style.DialogTheme,this,hour,minute,true).show()
-//        }
     }
 
     private fun recyclerViewSetup() {
@@ -110,8 +93,6 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
                 val thistoday = if(day.day<10) "0"+(day.day).toString() else day.day.toString()
                 val thismonth= if(day.month + 1<10) "0"+(day.month+1).toString() else (day.month + 1).toString()
                 val date = thistoday+"/"+thismonth+"/"+day.year
-                time = "Time"
-//                binding.time.text= time
                 scheduleViewModel.updateScheduleWithDate(date)
                 scheduleViewModel.schedules?.observe(requireActivity()){ list ->
                     list?.let {
@@ -149,24 +130,5 @@ class SchedulesFragment : Fragment(), ScheduleAdapter.OnClickInterface, TimePick
         Log.d("test",schedule.id.toString())
         FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+schedule.id.toString())
         testViewModel.createTest(test,requireActivity())
-    }
-
-    private fun getDateTimeCalendar(){
-        val cal = Calendar.getInstance()
-        hour = cal.get(Calendar.HOUR)
-        minute = cal.get(Calendar.MINUTE)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
-//        savedhour = if(hour<10) "0$hour" else hour.toString()
-//        savedminute = if(minute<10) "0$minute" else minute.toString()
-//        binding.time.text = "$savedhour:$savedminute"
-//        time  = "$savedhour:$savedminute"
-    }
-
-    fun isNowBetweenDateTime(s: Date?, e: Date?): Boolean {
-        val now = Date()
-        return now.after(s) && now.before(e)
     }
 }
