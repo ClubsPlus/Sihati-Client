@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SihatiClient">
+
         <service
             android:name=".notification.FirebaseService"
             android:exported="true"
@@ -22,15 +23,18 @@
         </service>
 
         <activity
-            android:name=".pages.authPages.AuthActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SihatiClient.NoActionBar" >
+            android:name=".pages.SplashScreen.SplashScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".pages.authPages.AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SihatiClient.NoActionBar"/>
         <activity
             android:name=".pages.settingsPage.SettingsActivity"
             android:exported="false" />
