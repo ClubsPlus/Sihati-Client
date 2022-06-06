@@ -10,10 +10,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sihati_client.R
 import com.example.sihati_client.database.Schedule
 import com.example.sihati_client.viewModels.ScheduleViewModel
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ScheduleAdapter(
     val context: Context,
@@ -64,8 +68,15 @@ class ScheduleAdapter(
             }
         }
 
-        holder.submit_button.setOnClickListener { onClickInterface.onClick(allSchedules[position]) }
+        val currentDate= LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val date = currentDate.format(formatter)
+        if(LocalDate.parse(allSchedules[position].date, formatter).isBefore(LocalDate.parse(date, formatter))){
+            holder.submit_button.isEnabled = false
+            holder.submit_button.backgroundTintList = ContextCompat.getColorStateList(context, R.color.greenDesable)
+        }
 
+        holder.submit_button.setOnClickListener { onClickInterface.onClick(allSchedules[position]) }
     }
 
     override fun getItemCount() = allSchedules.size
