@@ -52,8 +52,7 @@ class AuthenticationRepository(private val application: Application) {
             userCollectionRef.document(uid).set(user).await()
               withContext(Dispatchers.Main){
                 Toast.makeText(activity,"Compte créé avec succès",Toast.LENGTH_LONG).show()
-                val mainActivity = MainActivity()
-                activity.startActivity(Intent(activity,mainActivity::class.java))
+                activity.startActivity(Intent(activity,MainActivity()::class.java))
               }
         }catch (e: Exception){
             withContext(Dispatchers.Main) {
@@ -89,6 +88,8 @@ class AuthenticationRepository(private val application: Application) {
                                     val thisUser: User = document.toObject()!!
                                     thisUser.token = task.result!!
                                     updateUser(thisUser)
+                                    activity.startActivity(Intent(activity, MainActivity()::class.java))
+
                                 }
                             }
                         }
