@@ -39,6 +39,7 @@ class AuthenticationRepository(private val application: Application) {
         auth.createUserWithEmailAndPassword(email!!, pass!!).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val uid = auth.currentUser!!.uid
+                auth.currentUser!!.sendEmailVerification()
                 saveUser(User(id,name,number),uid,activity)
             }else{
                 Toast.makeText(application, task.exception?.message, Toast.LENGTH_SHORT)
@@ -50,10 +51,10 @@ class AuthenticationRepository(private val application: Application) {
     private fun saveUser(user: User, uid: String, activity: Activity) = CoroutineScope(Dispatchers.IO).launch{
         try{
             userCollectionRef.document(uid).set(user).await()
-              withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main){
                 Toast.makeText(activity,"Compte créé avec succès",Toast.LENGTH_LONG).show()
-                activity.startActivity(Intent(activity,MainActivity()::class.java))
-              }
+            }
+            signOut(activity)
         }catch (e: Exception){
             withContext(Dispatchers.Main) {
                 Log.d("exception","error: "+e.message.toString())
@@ -64,8 +65,13 @@ class AuthenticationRepository(private val application: Application) {
     fun login(email: String?, pass: String?,activity: Activity) {
         auth.signInWithEmailAndPassword(email!!, pass!!).addOnCompleteListener { task ->
             if (task.isSuccessful){
-                retrieveUsers(auth.currentUser!!,activity)
-                firebaseUserMutableLiveData.postValue(auth.currentUser)
+                if(auth.currentUser!!.isEmailVerified){
+                    retrieveUsers(auth.currentUser!!,activity)
+                    firebaseUserMutableLiveData.postValue(auth.currentUser)
+                }else{
+                    Toast.makeText(application, "Vérifier votre email", Toast.LENGTH_SHORT).show()
+                    signOut(activity)
+                }
             } else {
                 Toast.makeText(application, task.exception?.message  , Toast.LENGTH_SHORT)
                     .show()
