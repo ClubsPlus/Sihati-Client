@@ -16,6 +16,7 @@ Assuredly.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the history of tests<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.make an appointment for a test in one of the laboratories schedules available<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cancel an appointment<br>
+
 2- Laboratory<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create account<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Log in<br>
