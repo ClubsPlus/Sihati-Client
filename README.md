@@ -8,22 +8,22 @@ Assuredly.
 
 # The Main Functions Are To Be Realized By The Actor
 1- User<br>
-&nbsp;.Create account<br>
-&nbsp;.Log in<br>
-&nbsp;.Change password<br>
-.See the current status<br>
-.Get a notification when it is time to take a test <br>
-.See the history of tests<br>
-.make an appointment for a test in one of the laboratories schedules available<br>
-Cancel an appointment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create account<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Log in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Change password<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the current status<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Get a notification when it is time to take a test <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the history of tests<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.make an appointment for a test in one of the laboratories schedules available<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cancel an appointment<br>
 2- Laboratory<br>
-  .Create account<br>
-  .Log in<br>
-  .Create a schedule <br>
-  .Edit a schedule<br>
-  .Delete a schedule<br>
-  .See the list of people for each schedule<br>
-  .Set the person state from not tested to pending<br>
-  .Set the result for the pending person<br>
-  .Edit the result of a test<br>
-  .See tests history<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create account<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Log in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create a schedule <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Edit a schedule<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Delete a schedule<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the list of people for each schedule<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set the person state from not tested to pending<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set the result for the pending person<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Edit the result of a test<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See tests history<br>
