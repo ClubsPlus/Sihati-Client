@@ -35,22 +35,19 @@ class SignUpFragment : Fragment() {
         )[AuthViewModel::class.java]
 
         binding.signup.setOnClickListener {
-            if(binding.email.text.toString().substringAfter("@")=="univ-tlemcen.dz"){
-                if(binding.name.text.toString().isNotEmpty()
-                    &&binding.number.text.toString().isNotEmpty()
-                    &&binding.id.text.toString().isNotEmpty()
-                    &&binding.email.text.toString().isNotEmpty()
-                    &&binding.password.text.toString().isNotEmpty()){
-                    viewModel.register(binding.email.text.toString(),
-                        binding.password.text.toString(),
-                        binding.id.text.toString(),
-                        binding.name.text.toString(),
-                        binding.number.text.toString(),
-                        requireActivity())
-                }else
-                    Toast.makeText(requireActivity(),"Remplissez vos champs s'il vous plaît", Toast.LENGTH_SHORT).show()
+            if(binding.name.text.toString().isNotEmpty()
+                &&binding.number.text.toString().isNotEmpty()
+                &&binding.id.text.toString().isNotEmpty()
+                &&binding.email.text.toString().isNotEmpty()
+                &&binding.password.text.toString().isNotEmpty()){
+                viewModel.register(binding.email.text.toString(),
+                    binding.password.text.toString(),
+                    binding.id.text.toString(),
+                    binding.name.text.toString(),
+                    binding.number.text.toString(),
+                    requireActivity())
             }else
-                Toast.makeText(requireActivity(),"Veuillez insérer un e-mail correct", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Remplissez vos champs s'il vous plaît", Toast.LENGTH_SHORT).show()
         }
     }
 }
