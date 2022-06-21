@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".pages.mainPage.fragments.AppointmentFragment">
+    tools:context=".pages.mainPage.fragments.AppointmentFragment"
+    android:background="@color/background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
