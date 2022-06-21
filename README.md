@@ -8,24 +8,22 @@ Assuredly.
 
 # The Main Functions Are To Be Realized By The Actor
 1- User<br>
+&nbsp;.Create account<br>
+&nbsp;.Log in<br>
+&nbsp;.Change password<br>
+.See the current status<br>
+.Get a notification when it is time to take a test <br>
+.See the history of tests<br>
+.make an appointment for a test in one of the laboratories schedules available<br>
+Cancel an appointment<br>
+2- Laboratory<br>
   .Create account<br>
   .Log in<br>
-  .Change password<br>
-  .See the current status
-  .Get a notification when it is time to take a test 
-  .See the history of tests
-  .make an appointment for a test in one of the laboratories schedules available
-  Cancel an appointment
-2- Laboratory
-  .Create account
-  .Log in
-  .Create a schedule 
-  .Edit a schedule
-  .Delete a schedule
-  .See the list of people for each schedule
-  .Set the person state from not tested to pending
-  .Set the result for the pending person
-  .Edit the result of a test
-  .See tests history
-  
-
+  .Create a schedule <br>
+  .Edit a schedule<br>
+  .Delete a schedule<br>
+  .See the list of people for each schedule<br>
+  .Set the person state from not tested to pending<br>
+  .Set the result for the pending person<br>
+  .Edit the result of a test<br>
+  .See tests history<br>
