@@ -13,6 +13,8 @@ Assuredly.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Change password<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the current status<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Get a notification when it is time to take a test <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Get a notification when the test result is ready <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Get a notification when one of his appointment get changed or deleted<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the history of tests<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.make an appointment for a test in one of the laboratories schedules available<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Cancel an appointment<br>
@@ -28,3 +30,12 @@ Assuredly.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Set the result for the pending person<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Edit the result of a test<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See tests history<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See Pending tests<br>
+
+# Technologies
+Kotlin<br>
+FireBase<br>
+MVVM design pattern<br>
+RetroFit<br>
+Corountine<br>
+LiveData<br>
