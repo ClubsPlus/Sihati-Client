@@ -8,7 +8,7 @@ Assuredly.
 
 # The Main Functions Are To Be Realized By The Actor
 1- User<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create account<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Create account(Email Confirmation is required)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Log in<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Change password<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.See the current status<br>
@@ -39,3 +39,10 @@ MVVM design pattern<br>
 RetroFit<br>
 Corountine<br>
 LiveData<br>
+ViewBinding<br>
+
+# Images
+<img width="1614" alt="auth" src="https://<img width="2156" alt="cient" src="https://user-images.githubusercontent.com/75279465/174914841-e199872a-7092-4f0d-8ca7-ac1cc45e7e5e.png">user-images.githubusercontent.com/75279465/174913579-81368d74-0ed5-41fc-b605-29879b3e7db2.png">
+<img width="2160" alt="status" src="https://user-images.githubusercontent.com/75279465/174913588-fbc2080c-3ab6-43b5-8725-dc3d38065041.png">
+![Uploading cient.png…]()
+
