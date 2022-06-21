@@ -7,10 +7,10 @@ While the user will receive a notification every week to take a test, the status
 Assuredly. 
 
 # The Main Functions Are To Be Realized By The Actor
-1- User
-  .Create account
-  .Log in
-  .Change password
+1- User<br>
+  .Create account<br>
+  .Log in<br>
+  .Change password<br>
   .See the current status
   .Get a notification when it is time to take a test 
   .See the history of tests
