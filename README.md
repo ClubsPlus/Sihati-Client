@@ -42,6 +42,6 @@ LiveData<br>
 ViewBinding<br>
 
 # Images
-<img width="1614" alt="auth" src="https://user-images.githubusercontent.com/75279465/174914900-af480638-8023-4f35-9c8f-ff54c28f05d6.png">
+<img width="1622" alt="auth" src="https://user-images.githubusercontent.com/75279465/174915722-1ca22df4-d622-4cb4-9052-0812430aaac8.png">
 <img width="2156" alt="cient" src="https://user-images.githubusercontent.com/75279465/174914907-a4337553-bad0-4cf7-8967-3582acb07d50.png">
 <img width="2160" alt="status" src="https://user-images.githubusercontent.com/75279465/174914914-207f9f43-12d3-4490-9c26-3e4635b8d404.png">
